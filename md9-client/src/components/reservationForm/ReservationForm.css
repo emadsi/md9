@@ -1,0 +1,29 @@
+.reservation-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../../assets/images/MD9.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.reservation-form {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid;
+    padding: 20px;
+    background: antiquewhite;
+    gap: 5px;
+    width: 30%;
+}
+
+.reservation-form-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3px;
+}
+
+.reservation-submit {
+    margin-top: 5px;
+}
