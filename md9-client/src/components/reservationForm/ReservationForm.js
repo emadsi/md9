@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './ReservationForm.css'
 import validator from 'validator' 
 
 const ReservationForm = ({ onSubmit }) => {
+  var timeSlotOptions = [
+    {from: '17:30', to: '19:30'},
+    {from: '19:30', to: '21:15'},
+    {from: '21:15', to: '23:00'}
+  ]
   const navigate = useNavigate();
+  const { fieldId } = useParams(); // Field 1 or 2
   const [date, setDate] = useState('');
   const [timeSlot, setTimeSlot] = useState('');
   const [reservationType, setReservationType] = useState('once');
@@ -28,6 +34,7 @@ const ReservationForm = ({ onSubmit }) => {
 
   return (
     <div class="reservation-container">
+      <h3>Reserve Field {fieldId}</h3>
       <form class="reservation-form" onSubmit={handleSubmit}>
         <div class="reservation-form-field">
           <label>Date: </label>
@@ -37,9 +44,9 @@ const ReservationForm = ({ onSubmit }) => {
           <label>Time Slot: </label>
           <select value={timeSlot} class="form-control" onChange={(timeSlot) => setTimeSlot(timeSlot.target.value)} required>
             <option value="">Select a time slot</option>
-            <option value="17:30 - 19:30">17:30 - 19:30</option>
-            <option value="19:30 - 21:15">19:30 - 21:15</option>
-            <option value="21:15 - 23:00">21:15 - 23:00</option>
+            {timeSlotOptions.map((timeSlot, index) => 
+              <option value={`${index}`}> ${timeSlot.from} - ${timeSlot.to}</option>
+            )}
           </select>
         </div>
         <div class="reservation-form-field">
@@ -67,3 +74,73 @@ const ReservationForm = ({ onSubmit }) => {
 };
 
 export default ReservationForm;
+
+// import React, { useState } from 'react';
+// import { useNavigate, useParams } from 'react-router-dom';
+
+// const ReservationPage = () => {
+//   var timeSlotOptions = [
+//     {from: '17:30', to: '19:30'},
+//     {from: '19:30', to: '21:15'},
+//     {from: '21:15', to: '23:00'}
+//   ]
+//   const { fieldId } = useParams(); // Field 1 or 2
+//   const [timeSlot, setTimeSlot] = useState('');
+//   const [paymentMethod, setPaymentMethod] = useState('');
+//   const [cardDetails, setCardDetails] = useState('');
+//   const navigate = useNavigate();
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     // Submit reservation to backend
+//     const response = await fetch('/api/reservations', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'Authorization': `Bearer ${localStorage.getItem('token')}`,
+//       },
+//       body: JSON.stringify({ fieldId, timeSlot, paymentMethod, cardDetails }),
+//     });
+
+//     if (response.ok) {
+//       alert('Reservation successful!');
+//       navigate('/');
+//     } else {
+//       alert('Failed to reserve!');
+//     }
+//   };
+
+//   return (
+//     <div class="reservation-container">
+//       <form onSubmit={handleSubmit}>
+//         <h3>Reserve Field {fieldId}</h3>
+//         <select value={timeSlot} onChange={(e) => setTimeSlot(e.target.value)} required>
+//           {timeSlotOptions.map((timeSlot, index) => {
+//             <option value={`${index}`}> ${timeSlot.from} - ${timeSlot.to}</option>
+//           })}
+//           {/* <option value="">Select Time Slot</option>
+//           <option value="17:30-19:30">17:30 - 19:30</option>
+//           <option value="19:30-21:15">19:30 - 21:15</option>
+//           <option value="21:15-23:00">21:15 - 23:00</option> */}
+//         </select>
+//         <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} required>
+//           <option value="">Select Payment Method</option>
+//           <option value="credit">Credit</option>
+//           <option value="cash">Cash</option>
+//         </select>
+//         {paymentMethod === 'cash' && (
+//           <input 
+//             type="text" 
+//             value={cardDetails} 
+//             onChange={(e) => setCardDetails(e.target.value)} 
+//             placeholder="Credit Card Details for Deposit" 
+//             required 
+//           />
+//         )}
+//         <button type="submit">Submit</button>
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default ReservationPage;

@@ -1,0 +1,37 @@
+.loginPage-container {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    background-image: url('../../../public/images/MD9.jpg');
+    position: relative;
+    text-align: center;
+    padding: 20px;
+    justify-content: space-evenly;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+
+    label {
+        color: #129718;;
+        margin-right: 5px;
+    }
+}
+
+.submit-button {
+    display: flex;
+    justify-content: center;
+
+    button {
+        width: 30%;
+        background-color: #2196F3;
+    }
+}

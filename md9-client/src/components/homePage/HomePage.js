@@ -5,23 +5,28 @@ import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
     const navigate = useNavigate();
-    const handleReserveClick = () => {
-        navigate('/reserve');
-    };
-
-    const handleAdminClick = () => {
-        navigate('/admin');
-    };
 
     return (
-        <div class="HomePage">
-            <h1>Welcome to MD9</h1>
-            <div className="home-container">
-                <div className="button-container">
-                    <button onClick={handleReserveClick} className="home-button">Reserve Field</button>
-                    <button onClick={handleAdminClick} className="home-button">Admin Zone</button>
-                </div>  
+        <div className="homepage-container">
+        {/* Admin Zone button in the top-right corner */}
+            <div className="admin-zone-button">
+                <button onClick={() => navigate('/login')}>Admin Zone</button>
             </div>
+
+            {/* Field images & Reservation Button */}
+            <div className='fields-reservations'> 
+                <div className="big-field">
+                    <img src="/images/field1.jpg" alt="Field 1" className="field-image" />
+                    <button className='reservation-buttons' onClick={() => navigate(`/reserve/${1}`)}>Field 1 Reservation</button>
+                </div>
+
+                {/* Reservation buttons */}
+                <div className="small-field">
+                    <img src="/images/field2.jpg" alt="Field 2" className="field-image" /> 
+                    <button className='reservation-buttons' onClick={() => navigate(`/reserve/${2}`)}>Field 2 Reservation</button>
+                </div>
+            </div>
+
         </div>
     )
 }

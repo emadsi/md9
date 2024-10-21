@@ -4,6 +4,7 @@ import HomePage from './components/homePage/HomePage';
 import ReservationForm from './components/reservationForm/ReservationForm';
 import PaymentForm from './components/paymentForm/PaymentForm';
 import AdminDashboard from './components/adminDashboard/AdminDashboard';
+import LoginPage from './components/loginPage/LoginPage';
 
 function App() {
     // Function to handle reservation form submission
@@ -21,10 +22,13 @@ function App() {
         <Route path="/home" element={<HomePage/>}/>
 
         {/* Reservation page */}
-        <Route path="/reserve" element={<ReservationForm onSubmit={handleReservationSubmit} />}/>
+        <Route path="/reserve" element={() => <ReservationForm fieldId={this.props.fieldId} onSubmit={handleReservationSubmit} />}/>
 
         {/* Payment page */}
         <Route path="/payment" element={<PaymentForm />} />
+
+        {/* Login Page for Admins */}
+        <Route path="/login" element={<LoginPage />} />
 
         {/* Admin Dashboard */}
         <Route path="/admin" element={<AdminDashboard />} />

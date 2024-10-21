@@ -1,47 +1,49 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 
-const AdminDashboard = () => {
+const AdminPanel = () => {
   const [reservations, setReservations] = useState([]);
+  const [logs, setLogs] = useState([]);
 
   useEffect(() => {
-    fetchReservations();
+    // Fetch reservations and logs
+    const fetchAdminData = async () => {
+      const resResponse = await fetch('/api/admin/reservations', {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      const logsResponse = await fetch('/api/admin/logs', {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+
+      if (resResponse.ok) setReservations(await resResponse.json());
+      if (logsResponse.ok) setLogs(await logsResponse.json());
+    };
+
+    fetchAdminData();
   }, []);
 
-  const fetchReservations = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/api/reservations/all');
-      setReservations(response.data);
-    } catch (error) {
-      console.error('Error fetching reservations:', error);
-    }
+  const handleCancel = async (reservationId) => {
+    await fetch(`/api/admin/cancel/${reservationId}`, { method: 'DELETE' });
+    setReservations(reservations.filter(r => r.id !== reservationId));
   };
 
   return (
     <div>
-      <h1>Admin Dashboard</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Time Slot</th>
-            <th>Type</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reservations.map((reservation) => (
-            <tr key={reservation.id}>
-              <td>{reservation.date}</td>
-              <td>{reservation.timeSlot}</td>
-              <td>{reservation.reservationType}</td>
-              <td>{reservation.status}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <h2>Admin Panel</h2>
+      <h3>Reservations</h3>
+      {reservations.map((res) => (
+        <div key={res.id}>
+          <p>Field: {res.fieldId}, Time: {res.timeSlot}</p>
+          <button onClick={() => handleCancel(res.id)}>Cancel Reservation</button>
+        </div>
+      ))}
+      <h3>Logs</h3>
+      {logs.map((log, index) => (
+        <div key={index}>
+          <p>{log}</p>
+        </div>
+      ))}
     </div>
   );
 };
 
-export default AdminDashboard;
+export default AdminPanel;
