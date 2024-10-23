@@ -1,0 +1,30 @@
+/* /src/styles/AdminPage.css */
+.admin-page {
+    padding: 20px;
+  }
+  
+  .reservation-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .reservation-table th,
+  .reservation-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .reservation-table th {
+    background-color: #003366;
+    color: white;
+  }
+  
+  .reservation-table td button {
+    padding: 5px 10px;
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  

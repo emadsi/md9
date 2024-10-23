@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,40 @@
   to {
     transform: rotate(360deg);
   }
+} */
+/* /src/styles/App.css */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+}
+
+.content {
+  padding: 20px;
+}
+
+.fields-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.field-reservation img {
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.footer {
+  background-color: #f1f1f1;
+  padding: 10px;
+  text-align: center;
+  margin-top: 20px;
 }
