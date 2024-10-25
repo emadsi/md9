@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import './FieldReservation.css';
 
 interface FieldReservationProps {
   fieldId: string;
@@ -17,7 +18,7 @@ const FieldReservation: React.FC<FieldReservationProps> = ({ fieldId, fieldName,
   return (
     <div className="field-reservation">
       <img src={imageSrc} alt={fieldName} className="field-image" />
-      <button onClick={handleReserve}>Reserve {fieldName}</button>
+      <button className='reserve-button' onClick={handleReserve}>Reserve {fieldName}</button>
     </div>
   );
 };

@@ -1,25 +1,9 @@
-/* /src/styles/HomePage.css */
+/* /src/pages/homePage/HomePage.css */
 .homepage {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-  background-color: #003366;
-  color: white;
-}
-
-.admin-button {
-  padding: 10px 20px;
-  background-color: #ff6600;
-  color: white;
-  border: none;
-  cursor: pointer;
 }
 
 .content {

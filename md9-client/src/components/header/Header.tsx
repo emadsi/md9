@@ -16,18 +16,23 @@
 // export default Header;
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Header.css'
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
 
   const handleAdminLogin = () => {
-    navigate('/admin');
+    navigate('/login');
   };
+  const handleHomePage = () => {
+    navigate('/')
+  }
 
   return (
     <header className="header">
-      <h1>Welcome to MD9</h1>
-      <button onClick={handleAdminLogin}>Admin Zone</button>
+      {/* <button className='welcome-button' onClick={handleHomePage}>Welcome to MD9</button> */}
+      <h1><a  href='/' onClick={handleHomePage}> Welcome to MD9</a></h1>
+      <button className='admin-button' onClick={handleAdminLogin}>Admin Zone</button>
     </header>
   );
 };
