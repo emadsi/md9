@@ -21,7 +21,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="login-page">
+    <div className="login-page content">
       <h1>Admin Login</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">

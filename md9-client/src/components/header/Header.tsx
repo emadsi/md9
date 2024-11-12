@@ -25,12 +25,11 @@ const Header: React.FC = () => {
     navigate('/login');
   };
   const handleHomePage = () => {
-    navigate('/')
+    navigate('/');
   }
 
   return (
     <header className="header">
-      {/* <button className='welcome-button' onClick={handleHomePage}>Welcome to MD9</button> */}
       <h1><a  href='/' onClick={handleHomePage}> Welcome to MD9</a></h1>
       <button className='admin-button' onClick={handleAdminLogin}>Admin Zone</button>
     </header>

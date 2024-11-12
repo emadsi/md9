@@ -60,7 +60,7 @@ const AdminPage: React.FC = () => {
   };
 
   return (
-    <div className="admin-page">
+    <div className="admin-page content">
       <h1>Admin Panel</h1>
 
       {/* Time Slot Management */}

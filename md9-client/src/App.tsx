@@ -16,6 +16,7 @@ const App: React.FC = () => {
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path='/Home' element={<HomePage />} />
         <Route path="/reserve/:fieldId" element={<ReservationPage />} />
         <Route path="/payment" element={<PaymentForm />} />
         <Route path="/login" element={<LoginPage />} />

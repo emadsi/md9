@@ -29,20 +29,28 @@
 
 // export default ReservationForm;
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface ReservationFormProps {
   fieldId: string;
 }
 
 const ReservationForm: React.FC<ReservationFormProps> = ({ fieldId }) => {
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [mobile, setMobile] = useState('');
   const [date, setDate] = useState('');
   const [timeSlot, setTimeSlot] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('Cash');
+
+  const handlePaymentNavigate = () => {
+    navigate('/payment');
+  }
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    handlePaymentNavigate();
     // Submit form data to backend via API
   };
 
@@ -74,10 +82,10 @@ const ReservationForm: React.FC<ReservationFormProps> = ({ fieldId }) => {
         <option value="19:30-21:15">19:30 - 21:15</option>
         <option value="21:15-23:00">21:15 - 23:00</option>
       </select>
-      <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} required>
+      {/* <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} required>
         <option value="Cash">Cash</option>
         <option value="Credit">Credit</option>
-      </select>
+      </select> */}
       <button type="submit">Reserve</button>
     </form>
   );

@@ -3,13 +3,12 @@ import FieldReservation from '../../components/fieldReservation/FieldReservation
 import './HomePage.css'
 import { useNavigate } from 'react-router-dom';
 
-
-const navigate = useNavigate();
-const handleCancelReservation = () => {
-  navigate('/cancel')
-}
-
 const HomePage: React.FC = () => {
+  const navigate = useNavigate();
+  const handleCancelReservation = () => {
+    navigate('/cancel');
+  }
+  
   return (
     <div className='homepage'>
       <div className="content">

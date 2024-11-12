@@ -81,7 +81,7 @@
 // };
 
 // export default ReservationPage;
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import ReservationForm from '../../components/reservationForm/ReservationForm';
 
@@ -89,7 +89,7 @@ const ReservationPage: React.FC = () => {
   const { fieldId } = useParams();
 
   return (
-    <div>
+    <div className='content-page content'>
       <h2>Reserve Field {fieldId}</h2>
       <ReservationForm fieldId={fieldId || '1'} />
     </div>
