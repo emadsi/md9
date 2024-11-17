@@ -19,6 +19,7 @@ interface ReservationRequest {
   timeSlot: string;
   paymentMethod: string;
   confirmationNo: string;
+  fieldId: string;
 }
 
 export const getAllReservations = () => {
