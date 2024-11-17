@@ -15,10 +15,10 @@ const API_BASE_URL = 'http://localhost:8080/api/reservations'; // Adjust this ba
 interface ReservationRequest {
   name: string;
   mobile: string;
-  date: string;
+  date: Date;
   timeSlot: string;
   paymentMethod: string;
-  creditCard?: string;
+  confirmationNo: string;
 }
 
 export const getAllReservations = () => {
