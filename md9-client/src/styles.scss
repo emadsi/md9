@@ -1,0 +1,11 @@
+/* You can add global styles to this file, and also import other style files */
+main {
+    min-height: calc(100vh - 180px); /* Adjust based on header and footer heights */
+    // display: flex;
+    flex: 1 1 auto;
+    padding: 20px;
+    background-image: url('../public/images/MD9.jpg');
+    background-attachment: fixed;
+    background-size: 100%;
+  }
+  

@@ -1,0 +1,12 @@
+:host {
+    .footer {
+        height: 50px;
+        position: sticky;
+        bottom: 0;
+        background-color: #40678f;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        color: white;
+    }
+}

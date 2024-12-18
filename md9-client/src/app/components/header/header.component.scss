@@ -1,0 +1,35 @@
+:host {
+    .header {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        background-color: #40678f;
+        color: white;
+        position: sticky;
+        top: 0;
+        height: 55px;
+        align-items: center;
+    
+        a {
+          text-decoration: none;
+        }
+    
+        a:visited {
+          color: white
+        }
+    }
+    
+    .welcome-button {
+        border: none;
+        background: transparent;
+        color: white;
+    }
+      
+    .admin-button {
+        padding: 10px 20px;
+        background-color: #32a43b;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+}

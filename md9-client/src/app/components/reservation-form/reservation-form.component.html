@@ -1,0 +1,51 @@
+<!-- <form onsubmit={handleSubmit}>
+    <input type="text"
+      placeholder="Full Name"
+      [formControl]="reserveeName"
+      required
+    />
+    <input type="text" 
+      placeholder="Mobile Number"
+      [formControl]="mobile"
+      required
+    />
+    <input
+      type="date"
+      value={date}
+      [formControl]="date"
+      required
+    />
+    <select [formGroup]="timeSlot" required>
+      <option value="">Select Time Slot</option>
+      <option *ngFor="let timeSlot of timeSlots" value={{timeSlot.id}}>{{timeSlot.from}} - {{timeSlot.to}}</option>
+    </select>
+    <button type="submit">Proceed to Payment</button>
+  </form> -->
+<div class="reservation-form">
+  <mat-calendar [(selected)]="selectedDate" (selectedChange)="onDateChange()"></mat-calendar>
+
+  <form [formGroup]="reservationForm" *ngIf="availableSlots.length > 0">
+    <mat-form-field appearance="fill">
+      <mat-label>Full Name</mat-label>
+      <input matInput formControlName="fullName" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Mobile</mat-label>
+      <input matInput formControlName="mobile" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Available Time Slots</mat-label>
+      <mat-select formControlName="timeSlot" required>
+        <mat-option *ngFor="let slot of availableSlots" [value]="slot">
+          {{ slot }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="proceedToPayment()" [disabled]="reservationForm.invalid">
+      Proceed to Payment
+    </button>
+  </form>
+</div>
