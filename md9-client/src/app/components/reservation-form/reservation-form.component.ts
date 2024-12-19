@@ -4,9 +4,10 @@ import { IReservation, ITimeSlot, ReservationStatus } from '../../models/reserva
 import { ReservationService } from '../../services/reservation/reservation.service';
 
 @Component({
-  selector: 'app-reservation-form',
-  templateUrl: './reservation-form.component.html',
-  styleUrl: './reservation-form.component.scss',
+    selector: 'app-reservation-form',
+    templateUrl: './reservation-form.component.html',
+    styleUrl: './reservation-form.component.scss',
+    standalone: false
 })
 export class ReservationFormComponent implements OnInit {
   reservationForm: FormGroup;

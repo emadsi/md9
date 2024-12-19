@@ -4,9 +4,10 @@ import { Form, FormBuilder, FormControl } from '@angular/forms';
 
 
 @Component({
-  selector: 'app-cancel-page',
-  templateUrl: './cancel-page.component.html',
-  styleUrls: ['./cancel-page.component.scss']
+    selector: 'app-cancel-page',
+    templateUrl: './cancel-page.component.html',
+    styleUrls: ['./cancel-page.component.scss'],
+    standalone: false
 })
 export class CancelPageComponent implements OnInit {
   confirmationNumber: FormControl;
