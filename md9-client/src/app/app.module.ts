@@ -15,8 +15,8 @@ import { AdminService } from './services/admin/admin.service';
 import { ReservationService } from './services/reservation/reservation.service';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { FieldReservationComponent } from './components/field-reservation/field-reservation.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { provideHttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -24,6 +24,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { MatNativeDateModule } from '@angular/material/core';
+import { provideRouter } from '@angular/router';
+import { routes } from './app.routes';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 
 @NgModule({
@@ -42,7 +45,6 @@ import { MatNativeDateModule } from '@angular/material/core';
     FieldReservationComponent,    
   ],
   imports: [
-    HttpClientModule,
     AppRoutingModule,
     BrowserModule,
     FormsModule,
@@ -58,6 +60,10 @@ import { MatNativeDateModule } from '@angular/material/core';
   providers: [
     AdminService,
     ReservationService,
+    provideHttpClient(),
+    provideRouter(routes),
+    provideClientHydration(),
+    provideAnimationsAsync(),
     provideClientHydration()
   ],
   bootstrap: [AppComponent]

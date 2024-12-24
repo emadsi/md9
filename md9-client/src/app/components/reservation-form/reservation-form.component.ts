@@ -30,7 +30,7 @@ export class ReservationFormComponent implements OnInit {
       reservationId: [''],
       reserveeName: ['', Validators.required],
       mobile: ['', Validators.required],
-      date: ['', Validators.required],
+      date: [ Date.now(), Validators.required],
       timeSlot: this.fb.group({
         id: ['', Validators.required],
         from: ['', Validators.required],
