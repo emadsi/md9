@@ -10,18 +10,18 @@ export enum ReservationStatus {
 }
 
 export interface IReservation {
-    reservationId: number;
+    reservationId: String;
     reserveeName: string;
     mobile: string;
     date: Date;
-    timeSlot: ITimeSlot;
+    timeSlotId: String;
     paymentMethod: IPaymentMethod; // "Cash" or "Credit"
     confirmationNo: number;
     status: ReservationStatus; // "Done", "Cancelled", "Pending"
 }
 
 export interface ITimeSlot {
-    id: number;
-    from: string;
-    to: string
+    id: String;
+    startTime: string; // "HH:mm" format
+    endTime: string; // "HH:mm" format
 }

@@ -27,6 +27,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { TimeSlotComponent } from './components/timeSlot/timeSlot.component';
+import { ConfirmationNumberComponent } from './components/confirmation-number/confirmation-number.component';
 
 
 @NgModule({
@@ -42,7 +44,9 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     ReservationFormComponent,
     PaymentFormComponent,
     LoginPageComponent,
-    FieldReservationComponent,    
+    FieldReservationComponent,
+    TimeSlotComponent,
+    ConfirmationNumberComponent,    
   ],
   imports: [
     AppRoutingModule,

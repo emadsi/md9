@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IReservation, ITimeSlot, ReservationStatus } from '../../models/reservation/reservation.interface';
 import { ReservationService } from '../../services/reservation/reservation.service';
+import { TimeSlotService } from '../../services/timeSlot/timeSlot.service';
+import { DisabledTimeSlotService } from '../../services/disabledTimeSlot/disabledTimeSlot.service';
+import { DisabledTimeSlot } from '../../models/disabledTimeSlot/disabledTimeSlots.interface';
 
 @Component({
     selector: 'app-reservation-form',
@@ -10,19 +13,25 @@ import { ReservationService } from '../../services/reservation/reservation.servi
     standalone: false
 })
 export class ReservationFormComponent implements OnInit {
+  @Input() timeSlots: ITimeSlot[] = [];
+
+  @Output() reserveTimeSlot = new EventEmitter<IReservation>;
+
   reservationForm: FormGroup;
-  reservations: any[] = [];
+  // reservations: any[] = [];
   errorMessage: string = '';
-  timeSlots: ITimeSlot[] = [];
+  // timeSlots: ITimeSlot[] = [];
   selectedDate: Date | null = null;
   availableSlots: string[] = [];
+  disabledTimeSlots: DisabledTimeSlot[] = [];
+  
 
-  constructor(private fb: FormBuilder, private reservationService: ReservationService) {}
+  constructor(private fb: FormBuilder, 
+    private reservationService: ReservationService, 
+    private timeSlotService: TimeSlotService, private disabledTimeSlotService: DisabledTimeSlotService) {}
 
   ngOnInit(): void {
       this.createForm();
-      this.loadReservations();
-      this.fetchTimeSlots();
   }
 
   private createForm() {
@@ -42,59 +51,72 @@ export class ReservationFormComponent implements OnInit {
     });
   }
 
-  private loadReservations(): void {
-    this.reservationService.getAllReservations().subscribe({
-      next: (data) => {
-        this.reservations = data;
-      },
-      error: (error) => {
-        this.errorMessage = 'Failed to load reservations';
-        console.error(error);
-      }
+  onDateChange(date: Date): void {
+    this.disabledTimeSlotService.getDisabledTimeSlots(date.toString()).subscribe((data) => {
+      this.disabledTimeSlots = data;
     });
   }
 
-  private fetchTimeSlots(): void {
-    this.reservationService.getTimeSlots().subscribe({
-      next: (slots) => {
-        this.timeSlots = slots;
-      },
-      error: (error) => {
-        console.error('Failed to fetch time slots', error);
-      },
-    });
+  isTimeSlotDisabled(timeSlotId: string): boolean {
+    return this.disabledTimeSlots.some((slot) => slot.timeSlotId === timeSlotId);
   }
 
-  onDateChange() {
-    if (this.selectedDate) {
-      this.reservationService.getAvailableTimeSlots(this.selectedDate).subscribe((slots: string[]) => {
-        this.availableSlots = slots;
-      });
-    }
-  }
+  // private loadReservations(): void {
+  //   this.reservationService.getAllReservations().subscribe({
+  //     next: (data) => {
+  //       this.reservations = data;
+  //     },
+  //     error: (error) => {
+  //       this.errorMessage = 'Failed to load reservations';
+  //       console.error(error);
+  //     }
+  //   });
+  // }
 
-  proceedToPayment() {
-    if (this.reservationForm.valid) {
-      const reservationDetails = {
-        date: this.selectedDate,
-        ...this.reservationForm.value
-      };
-      // Navigate to PaymentPage with reservation details (implementation depends on routing setup)
-      console.log('Reservation Details:', reservationDetails);
-    }
-  }
+  // private fetchTimeSlots(): void {
+  //   this.timeSlotService.getAllTimeSlots().subscribe({
+  //     next: (slots) => {
+  //       this.timeSlots = slots;
+  //     },
+  //     error: (error) => {
+  //       console.error('Failed to fetch time slots', error);
+  //     },
+  //   });
+  // }
+
+  // onDateChange() {
+  //   if (this.selectedDate) {
+  //     this.reservationService.getAvailableTimeSlots(this.selectedDate).subscribe((slots: string[]) => {
+  //       this.availableSlots = slots;
+  //     });
+  //   }
+  // }
+
+  // proceedToPayment() {
+  //   if (this.reservationForm.valid) {
+  //     const reservationDetails = {
+  //       date: this.selectedDate,
+  //       ...this.reservationForm.value
+  //     };
+  //     // Navigate to PaymentPage with reservation details (implementation depends on routing setup)
+  //     console.log('Reservation Details:', reservationDetails);
+  //   }
+  // }
 
   submitReservation(): void {
-    this.reservationService.createReservation(this.reservationForm.value).subscribe({
-      next: (response) => {
-        this.confirmationNo.setValue(response.confirmationNumber);
-        alert(`Reservation successful! Confirmation Number: ${this.confirmationNo.value}`);
-      },
-      error: (error) => {
-        console.error('Failed to create reservation', error);
-        alert('Failed to create reservation');
-      }
-    });
+    // this.reservationService.createReservation(this.reservationForm.value).subscribe({
+    //   next: (response) => {
+    //     this.confirmationNo.setValue(response.confirmationNumber);
+    //     alert(`Reservation successful! Confirmation Number: ${this.confirmationNo.value}`);
+    //   },
+    //   error: (error) => {
+    //     console.error('Failed to create reservation', error);
+    //     alert('Failed to create reservation');
+    //   }
+    // });
+    if (this.reservationForm.valid) {
+      this.reserveTimeSlot.emit(this.reservationForm.value);
+    }
   }
 
   get reservationId(): FormControl {

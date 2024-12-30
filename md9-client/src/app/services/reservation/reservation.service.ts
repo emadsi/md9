@@ -17,18 +17,18 @@ export class ReservationService {
    * @returns Observable of the created reservation
    */
   createReservation(reservationData: IReservation): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}`, reservationData);
+    return this.http.put<IReservation>(`${this.apiUrl}/new`, {reservationData});
   }
 
-  /**
-   * Update an existing reservation
-   * @param reservationId The ID of the reservation
-   * @param updateData The updated reservation data
-   * @returns Observable of the updated reservation
-   */
-  updateReservation(reservationId: number, updateData: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${reservationId}`, updateData);
-  }
+  // /**
+  //  * Update an existing reservation
+  //  * @param reservationId The ID of the reservation
+  //  * @param updateData The updated reservation data
+  //  * @returns Observable of the updated reservation
+  //  */
+  // updateReservation(reservationId: number, updateData: any): Observable<any> {
+  //   return this.http.put<any>(`${this.apiUrl}/new`, {reservationId}, updateData);
+  // }
 
   /**
    * Cancel a reservation
@@ -39,20 +39,20 @@ export class ReservationService {
     return this.http.delete<any>(`${this.apiUrl}/cancel/${confirmationNumber}`);
   }
 
-  /**
-   * Fetch all time slots from the backend.
-   * @returns Observable of time slots
-   */
-  getTimeSlots(): Observable<ITimeSlot[]> {
-    return this.http.get<ITimeSlot[]>(`${this.apiUrl}`);
-  }
+  // /**
+  //  * Fetch all time slots from the backend.
+  //  * @returns Observable of time slots
+  //  */
+  // getTimeSlots(): Observable<ITimeSlot[]> {
+  //   return this.http.get<ITimeSlot[]>(`${this.apiUrl}`);
+  // }
 
   /**
    * Get all reservations
    * @returns Observable of reservation list
    */
   getAllReservations(): Observable<IReservation[]> {
-    return this.http.get<IReservation[]>(`${this.apiUrl}`);
+    return this.http.get<IReservation[]>(`${this.apiUrl}/all`);
   }
 
   /**
@@ -67,7 +67,7 @@ export class ReservationService {
 
   getAvailableTimeSlots(date: Date): Observable<string[]> {
     // Replace with actual API call
-    const formattedDate = date.toISOString().split('T')[0];
-    return this.http.get<string[]>(`/api/reservations/available-slots?date=${formattedDate}`);
+    // const formattedDate = date.toISOString().split('T')[0];
+    return this.http.get<string[]>(`/api/reservations/available-slots/${date}`);
   }
 }

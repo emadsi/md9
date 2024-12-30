@@ -1,0 +1,36 @@
+<h2>Manage Time Slots</h2>
+
+<!-- Add Time Slot -->
+<div>
+  <h3>Add Time Slot</h3>
+  <label>From:</label>
+  <input type="time" [(ngModel)]="newFrom" />
+  <label>To:</label>
+  <input type="time" [(ngModel)]="newTo" />
+  <button (click)="addTimeSlot()">Add</button>
+</div>
+
+<!-- Block Time Slot -->
+<div>
+  <h3>Block Time Slot</h3>
+  <label>Date:</label>
+  <input type="date" [(ngModel)]="blockDate" />
+  <label>Time Slot:</label>
+  <select [(ngModel)]="selectedTimeSlotId">
+    <option *ngFor="let slot of timeSlots" [value]="slot.id">
+      {{ slot.startTime }} - {{ slot.endTime }}
+    </option>
+  </select>
+  <button (click)="blockTimeSlot()">Block</button>
+  <button (click)="blockAllTimeSlots()">Block All</button>
+</div>
+
+<!-- List Time Slots -->
+<div>
+  <h3>Available Time Slots</h3>
+  <ul>
+    <li *ngFor="let slot of timeSlots">
+      {{ slot.startTime }} - {{ slot.endTime }}
+    </li>
+  </ul>
+</div>

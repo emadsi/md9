@@ -22,7 +22,7 @@
     <button type="submit">Proceed to Payment</button>
   </form> -->
 <div class="reservation-form">
-  <mat-calendar ngSkipHydration [(selected)]="selectedDate" (selectedChange)="onDateChange()"></mat-calendar>
+  <mat-calendar ngSkipHydration [(selected)]="selectedDate" (selectedChange)="onDateChange(selectedDate)"></mat-calendar>
 
   <form [formGroup]="reservationForm" *ngIf="availableSlots.length > 0">
     <mat-form-field appearance="fill">
@@ -44,7 +44,7 @@
       </mat-select>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" (click)="proceedToPayment()" [disabled]="reservationForm.invalid">
+    <button mat-raised-button color="primary" (click)="submitReservation()" [disabled]="reservationForm.invalid">
       Proceed to Payment
     </button>
   </form>
