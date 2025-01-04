@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IReservation, ITimeSlot, ReservationStatus } from '../../models/reservation/reservation.interface';
-import { ReservationService } from '../../services/reservation/reservation.service';
 import { TimeSlotService } from '../../services/timeSlot/timeSlot.service';
 import { DisabledTimeSlotService } from '../../services/disabledTimeSlot/disabledTimeSlot.service';
 import { DisabledTimeSlot } from '../../models/disabledTimeSlot/disabledTimeSlots.interface';
+import { ReservationFormService } from '../../services/reservation-form/reservation-form.service';
 
 @Component({
     selector: 'app-reservation-form',
@@ -27,28 +27,14 @@ export class ReservationFormComponent implements OnInit {
   
 
   constructor(private fb: FormBuilder, 
-    private reservationService: ReservationService, 
-    private timeSlotService: TimeSlotService, private disabledTimeSlotService: DisabledTimeSlotService) {}
+    private reservationFormService: ReservationFormService, private disabledTimeSlotService: DisabledTimeSlotService) {}
 
   ngOnInit(): void {
       this.createForm();
   }
 
   private createForm() {
-    this.reservationForm = this.fb.group({
-      reservationId: [''],
-      reserveeName: ['', Validators.required],
-      mobile: ['', Validators.required],
-      date: [ Date.now(), Validators.required],
-      timeSlot: this.fb.group({
-        id: ['', Validators.required],
-        from: ['', Validators.required],
-        to: ['', Validators.required]
-      }),
-      paymentMethod: ['', Validators.required],
-      confirmationNo: [''],
-      status: [ReservationStatus.pending]
-    });
+    this.reservationForm = this.reservationFormService.createReservationForm();
   }
 
   onDateChange(date: Date): void {
@@ -57,7 +43,7 @@ export class ReservationFormComponent implements OnInit {
     });
   }
 
-  isTimeSlotDisabled(timeSlotId: string): boolean {
+  isTimeSlotDisabled(timeSlotId: number): boolean {
     return this.disabledTimeSlots.some((slot) => slot.timeSlotId === timeSlotId);
   }
 

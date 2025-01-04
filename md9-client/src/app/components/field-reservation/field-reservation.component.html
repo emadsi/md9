@@ -1,4 +1,4 @@
 <div class="field-reservation">
-    <img src="{{imagePath}}" alt="{{fieldName}}" class="field-image" />
+    <img [src]="imagePath" alt="{{fieldName}}" class="field-image" />
     <button class="reserve-button" (click)="handleReserve()"> Reserve {{fieldName}} </button>
 </div>

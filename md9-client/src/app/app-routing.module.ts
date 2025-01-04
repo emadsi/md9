@@ -6,6 +6,7 @@ import { ReservationPageComponent } from './pages/reservation-page/reservation-p
 import { PaymentPageComponent } from './pages/payment-page/payment-page.component';
 import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { TimeSlotComponent } from './components/timeSlot/timeSlot.component';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'payment', component: PaymentPageComponent },
   { path: 'cancel', component: CancelPageComponent },
   { path: 'admin', component: AdminPageComponent },
+  { path: 'timeslot', component: TimeSlotComponent}
 ];
 
 @NgModule({

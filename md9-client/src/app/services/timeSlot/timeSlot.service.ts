@@ -1,34 +1,35 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TimeSlot } from '../../models/timeslot/timeslot.interface';
+// import { TimeSlot } from '../../models/timeslot/timeslot.interface';
+import { ITimeSlot } from '../../models/reservation/reservation.interface';
 
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class TimeSlotService {
-  private baseUrl = 'http://localhost:8080/api/time-slots';
+  private baseUrl = 'http://localhost:8080/api/timeslots';
 
   constructor(private http: HttpClient) {}
 
-  getAllTimeSlots(): Observable<TimeSlot[]> {
-    return this.http.get<TimeSlot[]>(`${this.baseUrl}/all`);
+  getAllTimeSlots(): Observable<ITimeSlot[]> {
+    return this.http.get<ITimeSlot[]>(`${this.baseUrl}/all`);
   }
 
   addTimeSlot(from: string, to: string): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/add`, { from, to });
   }
 
-  blockTimeSlot(timeSlotId: string, date: string): Observable<void> {
+  blockTimeSlot(timeSlotId: number, date: Date): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/block`, { timeSlotId, date });
   }
 
-  blockAllTimeSlots(date: string): Observable<void> {
+  blockAllTimeSlots(date: Date): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/block-all`, { date });
   }
 
-  deleteTimeSlot(timeSlotId: string): Observable<void> {
+  deleteTimeSlot(timeSlotId: number): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/`, {timeSlotId});
   }
 }

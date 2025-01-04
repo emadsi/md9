@@ -1,19 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { TimeSlot } from '../../models/timeslot/timeslot.interface';
+// import { TimeSlot } from '../../models/timeslot/timeslot.interface';
 import { TimeSlotService } from '../../services/timeSlot/timeSlot.service';
+import { ITimeSlot } from '../../models/reservation/reservation.interface';
 
 
 @Component({
   selector: 'app-timeSlot',
   templateUrl: './timeSlot.component.html',
-  styleUrls: ['./timeSlot.component.css'],
+  styleUrls: ['./timeSlot.component.scss'],
+  standalone: false
 })
 export class TimeSlotComponent implements OnInit {
-  timeSlots: TimeSlot[] = [];
+  timeSlots: ITimeSlot[] = [];
   newFrom = '';
   newTo = '';
-  blockDate = '';
-  selectedTimeSlotId = '';
+  blockDate: Date;
+  selectedTimeSlotId: number;
 
   constructor(private timeSlotService: TimeSlotService) {}
 
