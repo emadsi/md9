@@ -1,65 +1,145 @@
 /* /src/pages/homePage/HomePage.css */
 :host {
+    // .homepage {
+    //     display: flex;
+    //     flex-direction: column;
+    //     justify-content: space-between;
+    //     height: 100%;
+    // }
+  
+    // .content {
+    //     display: flex;
+    //     flex-direction: column;
+    //     justify-content: center;
+    //     align-items: center;
+    //     flex-grow: 1;
+    // }
+    
+    // .fields-container {
+    //     display: flex;
+    //     flex-direction: row;
+    //     justify-content: space-around;
+    //     width: 100%;
+    //     padding: 40px 0;
+    // }
+    
+    // .field {
+    //     display: flex;
+    //     flex-direction: column;
+    //     align-items: center;
+    // }
+    
+    // .field-image {
+    //     width: 300px;
+    //     height: 200px;
+    //     object-fit: cover;
+    // }
+    
+    // .reserve-button {
+    //     margin-top: 10px;
+    //     padding: 10px 20px;
+    //     background-color: #008cba;
+    //     color: white;
+    //     border: none;
+    //     cursor: pointer;
+    // }
+    
+    // .cancel-reservation {
+    //     margin-top: 20px;
+    // }
+    
+    // .cancel-button {
+    //     padding: 10px 20px;
+    //     background-color: red;
+    //     color: white;
+    //     border: none;
+    //     cursor: pointer;
+    // }
+    
+    // .footer {
+    //     text-align: center;
+    //     padding: 10px;
+    //     background-color: #003366;
+    //     color: white;
+    // }
+    
     .homepage {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        height: 100%;
-    }
-  
-    .content {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
         align-items: center;
-        flex-grow: 1;
+        padding: 20px;
+        gap: 20px;
+
+        // Cancellation button styles
+        .cancellation {
+            text-align: center;
+
+            button {
+                font-size: 1rem;
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+          
+                &:hover {
+                  background-color: #0056b3;
+                }
+            }
+        }
+
+        // Field Reservation components container
+        .fields-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between; // Space between the components
+            align-items: center;
+            gap: 20px; // Adds consistent spacing between components
+            width: 100%; // Ensures it adapts to the available width
+            max-width: 800px; // Optional: Restrict maximum width for layout control
+
+            app-field-reservation {
+                flex: 1; // Allows components to grow and shrink equally
+                max-width: 350px; // Restrict maximum width of each component
+                text-align: center;
+
+                img {
+                    width: 100%;
+                    height: auto;
+                    border-radius: 10px;
+                }
+
+                button {
+                    margin-top: 10px;
+                    font-size: 1rem;
+                    padding: 10px 20px;
+                    background-color: #28a745;
+                    color: white;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition: background-color 0.3s;
+            
+                    &:hover {
+                      background-color: #218838;
+                    }
+                }
+            }
+        }
     }
+
+    // Media query for small screens
+    @media (max-width: 768px) {
+        .fields-container {
+        flex-direction: column; // Stacks the components vertically
+        gap: 30px;
+        }
     
-    .fields-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        width: 100%;
-        padding: 40px 0;
-    }
-    
-    .field {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .field-image {
-        width: 300px;
-        height: 200px;
-        object-fit: cover;
-    }
-    
-    .reserve-button {
-        margin-top: 10px;
-        padding: 10px 20px;
-        background-color: #008cba;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
-    
-    .cancel-reservation {
-        margin-top: 20px;
-    }
-    
-    .cancel-button {
-        padding: 10px 20px;
-        background-color: red;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
-    
-    .footer {
-        text-align: center;
-        padding: 10px;
-        background-color: #003366;
-        color: white;
+        .cancellation button {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+        }
     }
 }  

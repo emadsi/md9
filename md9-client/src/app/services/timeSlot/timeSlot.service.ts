@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ITimeSlot } from '../../models/timeslot/timeslot.interface';
 // import { TimeSlot } from '../../models/timeslot/timeslot.interface';
-import { ITimeSlot } from '../../models/reservation/reservation.interface';
+
 
 
 @Injectable({

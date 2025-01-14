@@ -19,9 +19,3 @@ export interface IReservation {
     confirmationNo: number;
     status: ReservationStatus; // "Done", "Cancelled", "Pending"
 }
-
-export interface ITimeSlot {
-    id: number;
-    startTime: string; // "HH:mm" format
-    endTime: string; // "HH:mm" format
-}

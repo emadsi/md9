@@ -1,6 +1,13 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { AppComponent } from './app/app.component';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+
+// bootstrapApplication(AppComponent, {
+//   providers: [provideHttpClient(withFetch())],
+// });
 
 platformBrowserDynamic().bootstrapModule(AppModule, {
   ngZoneEventCoalescing: true
@@ -16,7 +23,7 @@ platformBrowserDynamic().bootstrapModule(AppModule, {
 
 // bootstrapApplication(AppComponent, {
 //   providers: [
-//     provideHttpClient(), 
+//     provideHttpClient(withFetch()), 
 //     provideRouter(routes), 
 //     provideAnimationsAsync(),
 //     provideClientHydration()

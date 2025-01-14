@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IReservation, ITimeSlot } from '../../models/reservation/reservation.interface';
+import { IReservation } from '../../models/reservation/reservation.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -65,9 +65,9 @@ export class ReservationService {
     return this.http.get<any>(`${this.apiUrl}/search`, { params });
   }
 
-  getAvailableTimeSlots(date: Date): Observable<string[]> {
-    // Replace with actual API call
-    // const formattedDate = date.toISOString().split('T')[0];
-    return this.http.get<string[]>(`/api/reservations/available-slots/${date}`);
-  }
+  // getAvailableTimeSlots(date: Date): Observable<string[]> {
+  //   // Replace with actual API call
+  //   // const formattedDate = date.toISOString().split('T')[0];
+  //   return this.http.get<string[]>(`/api/reservations/available-slots/${date}`);
+  // }
 }

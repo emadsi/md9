@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { IReservation, ITimeSlot, ReservationStatus } from '../../models/reservation/reservation.interface';
+import { IReservation } from '../../models/reservation/reservation.interface';
 import { TimeSlotService } from '../../services/timeSlot/timeSlot.service';
 import { DisabledTimeSlotService } from '../../services/disabledTimeSlot/disabledTimeSlot.service';
 import { DisabledTimeSlot } from '../../models/disabledTimeSlot/disabledTimeSlots.interface';
 import { ReservationFormService } from '../../services/reservation-form/reservation-form.service';
+import { ITimeSlot } from '../../models/timeslot/timeslot.interface';
 
 @Component({
     selector: 'app-reservation-form',
@@ -43,7 +44,7 @@ export class ReservationFormComponent implements OnInit {
     });
   }
 
-  isTimeSlotDisabled(timeSlotId: number): boolean {
+  isTimeSlotDisabled(timeSlotId: String): boolean {
     return this.disabledTimeSlots.some((slot) => slot.timeSlotId === timeSlotId);
   }
 

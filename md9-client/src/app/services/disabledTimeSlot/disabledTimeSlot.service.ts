@@ -13,7 +13,7 @@ export class DisabledTimeSlotService {
   constructor(private http: HttpClient) {}
 
   getAllDisabledTimeSlots(): Observable<DisabledTimeSlot[]> {
-    return this.http.get<DisabledTimeSlot[]>(`${this.baseUrl}/all`)
+    return this.http.get<DisabledTimeSlot[]>(`${this.baseUrl}`)
   }
 
   getDisabledTimeSlots(date: string): Observable<DisabledTimeSlot[]> {

@@ -16,7 +16,7 @@ import { ReservationService } from './services/reservation/reservation.service';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { FieldReservationComponent } from './components/field-reservation/field-reservation.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -64,7 +64,7 @@ import { ConfirmationNumberComponent } from './components/confirmation-number/co
   providers: [
     AdminService,
     ReservationService,
-    provideHttpClient(),
+    provideHttpClient(withFetch()),
     provideRouter(routes),
     provideClientHydration(),
     provideAnimationsAsync(),

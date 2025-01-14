@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 
 import { ReservationService } from '../../services/reservation/reservation.service';
 import { TimeSlotService } from '../../services/timeSlot/timeSlot.service';
-import { IReservation, ITimeSlot } from '../../models/reservation/reservation.interface';
+import { IReservation } from '../../models/reservation/reservation.interface';
 import { ConfirmationNumberComponent } from '../../components/confirmation-number/confirmation-number.component';
 import { ReservationConfirmationDialogComponent } from '../../components/reservationConfirmationDialog/reservationConfirmationDialog.component';
 import { DisabledTimeSlot } from '../../models/disabledTimeSlot/disabledTimeSlots.interface';
 import { DisabledTimeSlotService } from '../../services/disabledTimeSlot/disabledTimeSlot.service';
 import { MatDialog } from '@angular/material/dialog';
+import { ITimeSlot } from '../../models/timeslot/timeslot.interface';
 
 @Component({
     selector: 'app-reservation-page',

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-// import { TimeSlot } from '../../models/timeslot/timeslot.interface';
 import { TimeSlotService } from '../../services/timeSlot/timeSlot.service';
-import { ITimeSlot } from '../../models/reservation/reservation.interface';
+import { ITimeSlot } from '../../models/timeslot/timeslot.interface';
 
 
 @Component({
