@@ -29,6 +29,10 @@ import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { TimeSlotComponent } from './components/timeSlot/timeSlot.component';
 import { ConfirmationNumberComponent } from './components/confirmation-number/confirmation-number.component';
+import { ViewReservationsComponent } from './components/view-reservations/view-reservations.component';
+import { BlockTimeslotsComponent } from './components/block-timeslots/block-timeslots.component';
+import { AddTimeslotsComponent } from './components/add-timeslots/add-timeslots.component';
+import { ConfirmPaymentsComponent } from './components/confirm-payments/confirm-payments.component';
 
 
 @NgModule({
@@ -46,7 +50,11 @@ import { ConfirmationNumberComponent } from './components/confirmation-number/co
     LoginPageComponent,
     FieldReservationComponent,
     TimeSlotComponent,
-    ConfirmationNumberComponent,    
+    ConfirmationNumberComponent,
+    ViewReservationsComponent,
+    BlockTimeslotsComponent,
+    AddTimeslotsComponent,
+    ConfirmPaymentsComponent
   ],
   imports: [
     AppRoutingModule,

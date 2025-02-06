@@ -1,26 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DisabledTimeSlot } from '../../models/disabledTimeSlot/disabledTimeSlots.interface';
+import { DisabledTimeslot } from '../../models/disabledTimeslot/disabledTimeslot.interface';
 
 
 @Injectable({
   providedIn: 'root',
 })
-export class DisabledTimeSlotService {
+export class DisabledTimeslotService {
   private baseUrl = 'http://localhost:8080/api/disabledTimeSlots';
 
   constructor(private http: HttpClient) {}
 
-  getAllDisabledTimeSlots(): Observable<DisabledTimeSlot[]> {
-    return this.http.get<DisabledTimeSlot[]>(`${this.baseUrl}`)
+  getAllDisabledTimeSlots(): Observable<DisabledTimeslot[]> {
+    return this.http.get<DisabledTimeslot[]>(`${this.baseUrl}`)
   }
 
-  getDisabledTimeSlots(date: string): Observable<DisabledTimeSlot[]> {
-    return this.http.get<DisabledTimeSlot[]>(`${this.baseUrl}/${date}`);
+  getDisabledTimeSlots(date: string): Observable<DisabledTimeslot[]> {
+    return this.http.get<DisabledTimeslot[]>(`${this.baseUrl}/${date}`);
   }
 
-  addDisabledTimeSlot(disabledTimeSlot: DisabledTimeSlot): Observable<DisabledTimeSlot> {
-    return this.http.post<DisabledTimeSlot>(this.baseUrl, disabledTimeSlot);
+  addDisabledTimeSlot(disabledTimeSlot: DisabledTimeslot): Observable<DisabledTimeslot> {
+    return this.http.post<DisabledTimeslot>(this.baseUrl, disabledTimeSlot);
   }
 }

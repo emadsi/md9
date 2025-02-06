@@ -5,10 +5,10 @@ import { TimeSlotService } from '../../services/timeSlot/timeSlot.service';
 import { IReservation } from '../../models/reservation/reservation.interface';
 import { ConfirmationNumberComponent } from '../../components/confirmation-number/confirmation-number.component';
 import { ReservationConfirmationDialogComponent } from '../../components/reservationConfirmationDialog/reservationConfirmationDialog.component';
-import { DisabledTimeSlot } from '../../models/disabledTimeSlot/disabledTimeSlots.interface';
-import { DisabledTimeSlotService } from '../../services/disabledTimeSlot/disabledTimeSlot.service';
+import { DisabledTimeslot } from '../../models/disabledTimeslot/disabledTimeslot.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { ITimeSlot } from '../../models/timeslot/timeslot.interface';
+import { DisabledTimeslotService } from '../../services/disabledTimeslot/disabledTimeslot.service';
 
 @Component({
     selector: 'app-reservation-page',
@@ -18,15 +18,16 @@ import { ITimeSlot } from '../../models/timeslot/timeslot.interface';
 })
 export class ReservationPageComponent implements OnInit {
     timeSlots: ITimeSlot[] = [];
-    disabledTimeSlots: DisabledTimeSlot[];
+    disabledTimeSlots: DisabledTimeslot[] = [];
     reservations: any[] = [];
     errorMessage: string = '';
     selectedTimeSlotId = '';
+    fields = ['Field 1', 'Field 2'];
 
     constructor(
         private reservationService: ReservationService,
         private timeSlotService: TimeSlotService,
-        private disabledTimeSlotService: DisabledTimeSlotService,
+        private disabledTimeslotService: DisabledTimeslotService,
         private  dialog: MatDialog
     ) {}
 
@@ -61,7 +62,7 @@ export class ReservationPageComponent implements OnInit {
 
 
     loadDisabledTimeSlots(): void {
-        this.disabledTimeSlotService.getAllDisabledTimeSlots().subscribe((data) => {
+        this.disabledTimeslotService.getAllDisabledTimeSlots().subscribe((data) => {
             this.disabledTimeSlots = data;
           });
     }

@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IReservation } from '../../models/reservation/reservation.interface';
-import { TimeSlotService } from '../../services/timeSlot/timeSlot.service';
-import { DisabledTimeSlotService } from '../../services/disabledTimeSlot/disabledTimeSlot.service';
-import { DisabledTimeSlot } from '../../models/disabledTimeSlot/disabledTimeSlots.interface';
+// import { TimeSlotService } from '../../services/timeSlot/timeSlot.service';
+import { DisabledTimeslotService } from '../../services/disabledTimeslot/disabledTimeslot.service';
+import { DisabledTimeslot } from '../../models/disabledTimeslot/disabledTimeslot.interface';
 import { ReservationFormService } from '../../services/reservation-form/reservation-form.service';
 import { ITimeSlot } from '../../models/timeslot/timeslot.interface';
 
@@ -15,7 +15,7 @@ import { ITimeSlot } from '../../models/timeslot/timeslot.interface';
 })
 export class ReservationFormComponent implements OnInit {
   @Input() timeSlots: ITimeSlot[] = [];
-
+  @Input() fields: string[] = [];
   @Output() reserveTimeSlot = new EventEmitter<IReservation>;
 
   reservationForm: FormGroup;
@@ -24,11 +24,11 @@ export class ReservationFormComponent implements OnInit {
   // timeSlots: ITimeSlot[] = [];
   selectedDate: Date | null = null;
   availableSlots: string[] = [];
-  disabledTimeSlots: DisabledTimeSlot[] = [];
+  disabledTimeSlots: DisabledTimeslot[] = [];
   
 
   constructor(private fb: FormBuilder, 
-    private reservationFormService: ReservationFormService, private disabledTimeSlotService: DisabledTimeSlotService) {}
+    private reservationFormService: ReservationFormService, private disabledTimeslotService: DisabledTimeslotService) {}
 
   ngOnInit(): void {
       this.createForm();
@@ -39,7 +39,7 @@ export class ReservationFormComponent implements OnInit {
   }
 
   onDateChange(date: Date): void {
-    this.disabledTimeSlotService.getDisabledTimeSlots(date.toString()).subscribe((data) => {
+    this.disabledTimeslotService.getDisabledTimeSlots(date.toString()).subscribe((data) => {
       this.disabledTimeSlots = data;
     });
   }
@@ -48,59 +48,7 @@ export class ReservationFormComponent implements OnInit {
     return this.disabledTimeSlots.some((slot) => slot.timeSlotId === timeSlotId);
   }
 
-  // private loadReservations(): void {
-  //   this.reservationService.getAllReservations().subscribe({
-  //     next: (data) => {
-  //       this.reservations = data;
-  //     },
-  //     error: (error) => {
-  //       this.errorMessage = 'Failed to load reservations';
-  //       console.error(error);
-  //     }
-  //   });
-  // }
-
-  // private fetchTimeSlots(): void {
-  //   this.timeSlotService.getAllTimeSlots().subscribe({
-  //     next: (slots) => {
-  //       this.timeSlots = slots;
-  //     },
-  //     error: (error) => {
-  //       console.error('Failed to fetch time slots', error);
-  //     },
-  //   });
-  // }
-
-  // onDateChange() {
-  //   if (this.selectedDate) {
-  //     this.reservationService.getAvailableTimeSlots(this.selectedDate).subscribe((slots: string[]) => {
-  //       this.availableSlots = slots;
-  //     });
-  //   }
-  // }
-
-  // proceedToPayment() {
-  //   if (this.reservationForm.valid) {
-  //     const reservationDetails = {
-  //       date: this.selectedDate,
-  //       ...this.reservationForm.value
-  //     };
-  //     // Navigate to PaymentPage with reservation details (implementation depends on routing setup)
-  //     console.log('Reservation Details:', reservationDetails);
-  //   }
-  // }
-
   submitReservation(): void {
-    // this.reservationService.createReservation(this.reservationForm.value).subscribe({
-    //   next: (response) => {
-    //     this.confirmationNo.setValue(response.confirmationNumber);
-    //     alert(`Reservation successful! Confirmation Number: ${this.confirmationNo.value}`);
-    //   },
-    //   error: (error) => {
-    //     console.error('Failed to create reservation', error);
-    //     alert('Failed to create reservation');
-    //   }
-    // });
     if (this.reservationForm.valid) {
       this.reserveTimeSlot.emit(this.reservationForm.value);
     }

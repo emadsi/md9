@@ -1,0 +1,24 @@
+<div>
+    <h2>Reservations</h2>
+    <input
+      type="text"
+      placeholder="Search reservations"
+      [(ngModel)]="searchQuery"
+      (input)="searchReservations()"
+    />
+    <button (click)="downloadExcel()">Download Excel</button>
+  
+    <table>
+      <thead>
+        <tr>
+          <th *ngFor="let key of filteredReservations[0] | keyvalue">{{ key.key }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reservation of filteredReservations">
+          <td *ngFor="let key of reservation | keyvalue">{{ key.value }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
