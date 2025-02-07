@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DisabledTimeslot } from '../../models/disabledTimeslot/disabledTimeslot.interface';
+import { environment } from '../../../environments/environment';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class DisabledTimeslotService {
-  private baseUrl = 'http://localhost:8080/api/disabledTimeSlots';
+  private baseUrl = `${environment.apiUrl}/disabledTimeSlots'`;
 
   constructor(private http: HttpClient) {}
 

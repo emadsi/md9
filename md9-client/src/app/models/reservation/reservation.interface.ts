@@ -17,7 +17,6 @@ export interface IReservation {
     fieldId: string;
     timeSlotId: number;
     paymentMethod: IPaymentMethod; // "Cash" or "Credit"
-    price?: number;
     confirmationNo: number;
     status: ReservationStatus; // "Done", "Cancelled", "Pending"
     createdAt: string;

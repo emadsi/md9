@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError, of } from 'rxjs';
 import { IReservation } from '../../models/reservation/reservation.interface';
+import { environment } from '../../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservationService {
-  private apiUrl = 'http://localhost:8080/api/reservations'; // Replace with your actual backend URL
+  private apiUrl = `${environment.apiUrl}/reservations`; // Replace with your actual backend URL
 
   constructor(private http: HttpClient) {}
 
@@ -16,8 +18,13 @@ export class ReservationService {
    * @param reservationData The reservation data
    * @returns Observable of the created reservation
    */
-  createReservation(reservationData: IReservation): Observable<any> {
-    return this.http.put<IReservation>(`${this.apiUrl}/new`, {reservationData});
+  createReservation(reservationData: IReservation): Observable<IReservation> {
+    return this.http.put<IReservation>(`${this.apiUrl}/new`, {reservationData}).pipe(
+      catchError((error) => {
+        console.error('Error fetching reservations', error);
+        return of(); // Return empty array on failure
+      })
+    );
   }
 
   // /**
