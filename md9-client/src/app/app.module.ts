@@ -35,8 +35,9 @@ import { ViewReservationsComponent } from './components/view-reservations/view-r
 import { BlockTimeslotsComponent } from './components/block-timeslots/block-timeslots.component';
 import { AddTimeslotsComponent } from './components/add-timeslots/add-timeslots.component';
 import { ConfirmPaymentsComponent } from './components/confirm-payments/confirm-payments.component';
-import { MatDialogModule } from '@angular/material/dialog';
+
 import { BlockDialogComponent } from './components/block-dialog/block-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({

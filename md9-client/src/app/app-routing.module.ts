@@ -16,7 +16,8 @@ const routes: Routes = [
   { path: 'payment', component: PaymentPageComponent },
   { path: 'cancel', component: CancelPageComponent },
   { path: 'admin', component: AdminPageComponent, canActivate: [AuthGuard] },
-  { path: 'timeslot', component: TimeslotComponent}
+  { path: 'timeslot', component: TimeslotComponent},
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
