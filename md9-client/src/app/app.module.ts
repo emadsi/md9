@@ -24,6 +24,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTableModule } from '@angular/material/table';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -33,6 +35,8 @@ import { ViewReservationsComponent } from './components/view-reservations/view-r
 import { BlockTimeslotsComponent } from './components/block-timeslots/block-timeslots.component';
 import { AddTimeslotsComponent } from './components/add-timeslots/add-timeslots.component';
 import { ConfirmPaymentsComponent } from './components/confirm-payments/confirm-payments.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BlockDialogComponent } from './components/block-dialog/block-dialog.component';
 
 
 @NgModule({
@@ -54,7 +58,8 @@ import { ConfirmPaymentsComponent } from './components/confirm-payments/confirm-
     ViewReservationsComponent,
     BlockTimeslotsComponent,
     AddTimeslotsComponent,
-    ConfirmPaymentsComponent
+    ConfirmPaymentsComponent,
+    BlockDialogComponent
   ],
   imports: [
     AppRoutingModule,
@@ -62,6 +67,9 @@ import { ConfirmPaymentsComponent } from './components/confirm-payments/confirm-
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    MatSidenavModule,
+    MatTableModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
