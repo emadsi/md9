@@ -13,6 +13,6 @@ export class HomePageComponent {
   constructor(private router: Router) {}
 
   handleCancelReservation() {
-    this.router.navigate(['/cancel']);
+    this.router.navigate(['cancel']);
   }
 }

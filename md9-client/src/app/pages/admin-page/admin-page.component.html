@@ -28,7 +28,7 @@
                                 <th mat-header-cell *matHeaderCellDef> Actions </th>
                                 <td mat-cell *matCellDef="let slot">
                                     <button mat-button color="warn" (click)="deleteTimeslot(slot.id)">Delete</button>
-                                    <button mat-button color="primary" (click)="openBlockDialog(slot)">Block</button>
+                                    <button mat-button color="warn" (click)="openBlockDialog()">Block</button>
                                 </td>
                             </ng-container>
 
@@ -54,7 +54,7 @@
                                 <th mat-header-cell *matHeaderCellDef> Actions </th>
                                 <td mat-cell *matCellDef="let slot">
                                     <button mat-button color="warn" (click)="deleteTimeslot(slot.id)">Delete</button>
-                                    <button mat-button color="primary" (click)="openBlockDialog(slot)">Block</button>
+                                    <button mat-button color="warn" (click)="openBlockDialog()">Block</button>
                                 </td>
                             </ng-container>
 
@@ -66,20 +66,4 @@
             </ng-container>
         </mat-sidenav-content>
     </mat-sidenav-container>
-
-    <!-- Block Timeslot Dialog -->
-    <mat-dialog #blockDialog>
-        <h2>Block Timeslot</h2>
-        <mat-form-field>
-          <mat-label>Select Date</mat-label>
-          <input matInput [matDatepicker]="picker" [(ngModel)]="blockDate">
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-        <button mat-button color="primary" (click)="confirmBlock()">Block</button>
-      </mat-dialog>
-      
-      <!-- Block Button in Timeslots Table -->
-      <button mat-button color="warn" (click)="blockDialog.open()">Block</button>
-      
 </div>

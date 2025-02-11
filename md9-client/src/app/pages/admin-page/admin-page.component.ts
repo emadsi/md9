@@ -66,21 +66,16 @@ export class AdminPageComponent implements OnInit {
   openBlockDialog(): void {
     const dialogRef = this.dialog.open(BlockDialogComponent, {
       width: '400px',
-      data: { selectedDate: this.blockDate }
+      data: {}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log('Blocking timeslot for:', result);
-        // Call API to block timeslot
+        // Call API to block timeslot here
       }
     });
   }
-
-//   openBlockDialog(slot: any) {
-//     this.selectedSlot = slot;
-//     this.dialog.open(this.blockDialog);
-//   }
 
   confirmBlock() {
     if (this.selectedBlockDate) {
@@ -88,7 +83,7 @@ export class AdminPageComponent implements OnInit {
         timeslotId: this.selectedSlot.id,
         blockDate: this.selectedBlockDate
       };
-      this.timeslotService.blockTimeslot(payload.timeslotId, payload.blockDate).subscribe(() => {
+      this.timeslotService.blockTimeslot(payload.timeslotId, payload.blockDate.toString()).subscribe(() => {
         this.loadTimeslots();
         this.dialog.closeAll();
       });
