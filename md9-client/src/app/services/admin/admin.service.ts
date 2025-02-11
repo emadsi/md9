@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AdminService {
-  private baseUrl = `${environment.apiUrl}/admin`
+  private baseUrl = `${environment.apiUrl}/admins`
   
   constructor(private http: HttpClient) { }
 
