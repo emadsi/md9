@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IReservation } from '../../models/reservation/reservation.interface';
-// import { TimeSlotService } from '../../services/timeSlot/timeSlot.service';
+// import { TimeslotService } from '../../services/timeslot/timeslot.service';
 import { DisabledTimeslotService } from '../../services/disabledTimeslot/disabledTimeslot.service';
 import { DisabledTimeslot } from '../../models/disabledTimeslot/disabledTimeslot.interface';
 import { ReservationFormService } from '../../services/reservation-form/reservation-form.service';
-import { ITimeSlot } from '../../models/timeslot/timeslot.interface';
+import { ITimeslot } from '../../models/timeslot/timeslot.interface';
 
 @Component({
     selector: 'app-reservation-form',
@@ -14,17 +14,17 @@ import { ITimeSlot } from '../../models/timeslot/timeslot.interface';
     standalone: false
 })
 export class ReservationFormComponent implements OnInit {
-  @Input() timeSlots: ITimeSlot[] = [];
+  @Input() timeslots: ITimeslot[] = [];
   @Input() fields: string[] = [];
-  @Output() reserveTimeSlot = new EventEmitter<IReservation>;
+  @Output() reserveTimeslot = new EventEmitter<IReservation>;
 
   reservationForm: FormGroup;
   // reservations: any[] = [];
   errorMessage: string = '';
-  // timeSlots: ITimeSlot[] = [];
+  // timeslots: ITimeslot[] = [];
   selectedDate: Date | null = null;
   availableSlots: string[] = [];
-  disabledTimeSlots: DisabledTimeslot[] = [];
+  disabledTimeslots: DisabledTimeslot[] = [];
   
 
   constructor(private fb: FormBuilder, 
@@ -39,18 +39,18 @@ export class ReservationFormComponent implements OnInit {
   }
 
   onDateChange(date: Date): void {
-    this.disabledTimeslotService.getDisabledTimeSlots(date.toString()).subscribe((data) => {
-      this.disabledTimeSlots = data;
+    this.disabledTimeslotService.getDisabledTimeslots(date.toString()).subscribe((data) => {
+      this.disabledTimeslots = data;
     });
   }
 
-  isTimeSlotDisabled(timeSlotId: String): boolean {
-    return this.disabledTimeSlots.some((slot) => slot.timeSlotId === timeSlotId);
+  isTimeslotDisabled(timeslotId: String): boolean {
+    return this.disabledTimeslots.some((slot) => slot.timeslotId === timeslotId);
   }
 
   submitReservation(): void {
     if (this.reservationForm.valid) {
-      this.reserveTimeSlot.emit(this.reservationForm.value);
+      this.reserveTimeslot.emit(this.reservationForm.value);
     }
   }
 
@@ -66,8 +66,8 @@ export class ReservationFormComponent implements OnInit {
   get date(): FormControl {
     return this.reservationForm.get('date') as FormControl;
   }
-  get timeSlot(): FormGroup {
-    return this.reservationForm.get('timeSlot') as FormGroup;
+  get timeslot(): FormGroup {
+    return this.reservationForm.get('timeslot') as FormGroup;
   }
   get paymentMethod(): FormControl {
     return this.reservationForm.get('paymentMethod') as FormControl;

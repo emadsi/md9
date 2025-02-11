@@ -15,7 +15,7 @@ export class ReservationFormService {
             reserverName: [reservation?.reserverName ?? '', Validators.required],
             mobile: [reservation?.mobile ?? '', Validators.required],
             date: [reservation?.date ??  Date.now(), Validators.required],
-            timeSlotId: [reservation?.timeSlotId ?? ''],
+            timeslotId: [reservation?.timeslotId ?? ''],
             paymentMethod: [reservation?.paymentMethod ?? '', Validators.required],
             confirmationNo: [reservation?.confirmationNo ?? ''],
             status: [reservation?.status ?? ReservationStatus.pending]

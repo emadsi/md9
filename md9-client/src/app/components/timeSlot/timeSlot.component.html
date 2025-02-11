@@ -7,7 +7,7 @@
   <input type="time" [(ngModel)]="newFrom" />
   <label>To:</label>
   <input type="time" [(ngModel)]="newTo" />
-  <button (click)="addTimeSlot()">Add</button>
+  <button (click)="addTimeslot()">Add</button>
 </div>
 
 <!-- Block Time Slot -->
@@ -16,20 +16,20 @@
   <label>Date:</label>
   <input type="date" [(ngModel)]="blockDate" />
   <label>Time Slot:</label>
-  <select [(ngModel)]="selectedTimeSlotId">
-    <option *ngFor="let slot of timeSlots" [value]="slot.id">
+  <select [(ngModel)]="selectedTimeslotId">
+    <option *ngFor="let slot of timeslots" [value]="slot.id">
       {{ slot.startTime }} - {{ slot.endTime }}
     </option>
   </select>
-  <button (click)="blockTimeSlot()">Block</button>
-  <button (click)="blockAllTimeSlots()">Block All</button>
+  <button (click)="blockTimeslot()">Block</button>
+  <button (click)="blockAllTimeslots()">Block All</button>
 </div>
 
 <!-- List Time Slots -->
 <div>
   <h3>Available Time Slots</h3>
   <ul>
-    <li *ngFor="let slot of timeSlots">
+    <li *ngFor="let slot of timeslots">
       {{ slot.startTime }} - {{ slot.endTime }}
     </li>
   </ul>

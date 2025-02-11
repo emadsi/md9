@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError, of } from 'rxjs';
 import { DisabledTimeslot } from '../../models/disabledTimeslot/disabledTimeslot.interface';
 import { environment } from '../../../environments/environment';
 
@@ -9,19 +9,24 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class DisabledTimeslotService {
-  private baseUrl = `${environment.apiUrl}/disabledTimeSlots'`;
+  private baseUrl = `${environment.apiUrl}/disabledTimeslots`;
 
   constructor(private http: HttpClient) {}
 
-  getAllDisabledTimeSlots(): Observable<DisabledTimeslot[]> {
-    return this.http.get<DisabledTimeslot[]>(`${this.baseUrl}`)
+  getAllDisabledTimeslots(): Observable<DisabledTimeslot[]> {
+    return this.http.get<DisabledTimeslot[]>(`${this.baseUrl}/all`).pipe(
+      catchError((error) => {
+        console.error('Error fetching reservations', error);
+        return of([]); // Return empty array on failure
+      })
+    );
   }
 
-  getDisabledTimeSlots(date: string): Observable<DisabledTimeslot[]> {
+  getDisabledTimeslots(date: string): Observable<DisabledTimeslot[]> {
     return this.http.get<DisabledTimeslot[]>(`${this.baseUrl}/${date}`);
   }
 
-  addDisabledTimeSlot(disabledTimeSlot: DisabledTimeslot): Observable<DisabledTimeslot> {
-    return this.http.post<DisabledTimeslot>(this.baseUrl, disabledTimeSlot);
+  addDisabledTimeslot(disabledTimeslot: DisabledTimeslot): Observable<DisabledTimeslot> {
+    return this.http.post<DisabledTimeslot>(this.baseUrl, disabledTimeslot);
   }
 }

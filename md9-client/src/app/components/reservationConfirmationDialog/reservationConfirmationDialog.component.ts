@@ -13,7 +13,7 @@ export class ReservationConfirmationDialogComponent {
       confirmationNumber: string;
       userId: string;
       reservationDate: string;
-      timeSlotId: string;
+      timeslotId: string;
     }
   ) {}
 }

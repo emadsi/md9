@@ -1,0 +1,22 @@
+:host {
+    .admin-container {
+        padding: 20px;
+        max-width: 1000px;
+        margin: auto;
+      }
+      
+      .admin-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+      
+      mat-table {
+        width: 100%;
+      }
+      
+      mat-icon {
+        cursor: pointer;
+      }
+      
+}

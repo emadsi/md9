@@ -33,7 +33,7 @@ export class ReservationService {
   //  * @param updateData The updated reservation data
   //  * @returns Observable of the updated reservation
   //  */
-  // updateReservation(reservationId: number, updateData: any): Observable<any> {
+  // updateReservation(reservationId: string, updateData: any): Observable<any> {
   //   return this.http.put<any>(`${this.apiUrl}/new`, {reservationId}, updateData);
   // }
 
@@ -42,16 +42,16 @@ export class ReservationService {
    * @param confirmationNumber The confirmation number of the reservation
    * @returns Observable of the cancellation response
    */
-  cancelReservation(confirmationNumber: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/cancel/${confirmationNumber}`);
+  cancelReservation(confirmationNumber: string): Observable<Boolean> {
+    return this.http.delete<Boolean>(`${this.apiUrl}/cancel/${confirmationNumber}`);
   }
 
   // /**
   //  * Fetch all time slots from the backend.
   //  * @returns Observable of time slots
   //  */
-  // getTimeSlots(): Observable<ITimeSlot[]> {
-  //   return this.http.get<ITimeSlot[]>(`${this.apiUrl}`);
+  // getTimeslots(): Observable<ITimeslot[]> {
+  //   return this.http.get<ITimeslot[]>(`${this.apiUrl}`);
   // }
 
   /**
@@ -67,12 +67,12 @@ export class ReservationService {
    * @param confirmationNumber The confirmation number
    * @returns Observable of the reservation
    */
-  getReservationByConfirmationNumber(confirmationNumber: number): Observable<any> {
+  getReservationByConfirmationNumber(confirmationNumber: string): Observable<any> {
     const params = new HttpParams().set('confirmationNumber', confirmationNumber.toString());
     return this.http.get<any>(`${this.apiUrl}/search`, { params });
   }
 
-  // getAvailableTimeSlots(date: Date): Observable<string[]> {
+  // getAvailableTimeslots(date: Date): Observable<string[]> {
   //   // Replace with actual API call
   //   // const formattedDate = date.toISOString().split('T')[0];
   //   return this.http.get<string[]>(`/api/reservations/available-slots/${date}`);

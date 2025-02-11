@@ -10,13 +10,13 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AddTimeslotsComponent {
   date: string = '';
-  timeSlot: string = '';
+  timeslot: string = '';
 
   constructor(private http: HttpClient) {}
 
   addTimeslot() {
     this.http
-      .post('/api/timeslots', { date: this.date, timeSlot: this.timeSlot })
+      .post('/api/timeslots', { date: this.date, timeslot: this.timeslot })
       .subscribe(() => {
         alert('Timeslot added successfully.');
       });

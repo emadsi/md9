@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ReservationService } from '../../services/reservation/reservation.service';
-import { TimeSlotService } from '../../services/timeSlot/timeSlot.service';
+import { TimeslotService } from '../../services/timeslot/timeslot.service';
 import { IReservation } from '../../models/reservation/reservation.interface';
 import { ConfirmationNumberComponent } from '../../components/confirmation-number/confirmation-number.component';
 import { ReservationConfirmationDialogComponent } from '../../components/reservationConfirmationDialog/reservationConfirmationDialog.component';
-import { DisabledTimeslot } from '../../models/disabledTimeslot/disabledTimeslot.interface';
 import { MatDialog } from '@angular/material/dialog';
-import { ITimeSlot } from '../../models/timeslot/timeslot.interface';
+import { ITimeslot } from '../../models/timeslot/timeslot.interface';
+import { DisabledTimeslot } from '../../models/disabledTimeslot/disabledTimeslot.interface';
 import { DisabledTimeslotService } from '../../services/disabledTimeslot/disabledTimeslot.service';
 
 @Component({
@@ -17,24 +17,24 @@ import { DisabledTimeslotService } from '../../services/disabledTimeslot/disable
     standalone: false
 })
 export class ReservationPageComponent implements OnInit {
-    timeSlots: ITimeSlot[] = [];
-    disabledTimeSlots: DisabledTimeslot[] = [];
+    timeslots: ITimeslot[] = [];
+    disabledTimeslots: DisabledTimeslot[] = [];
     reservations: any[] = [];
     errorMessage: string = '';
-    selectedTimeSlotId = '';
+    selectedTimeslotId = '';
     fields = ['Field 1', 'Field 2'];
 
     constructor(
         private reservationService: ReservationService,
-        private timeSlotService: TimeSlotService,
+        private timeslotService: TimeslotService,
         private disabledTimeslotService: DisabledTimeslotService,
         private  dialog: MatDialog
     ) {}
 
     ngOnInit(): void {
         this.loadReservations();
-        this.fetchTimeSlots();
-        this.loadDisabledTimeSlots();
+        this.fetchTimeslots();
+        this.loadDisabledTimeslots();
     }
 
     private loadReservations(): void {
@@ -49,25 +49,25 @@ export class ReservationPageComponent implements OnInit {
         });
     }
 
-    private fetchTimeSlots(): void {
-        this.timeSlotService.getAllTimeSlots().subscribe({
+    private fetchTimeslots(): void {
+        this.timeslotService.getAllTimeslots().subscribe({
           next: (slots) => {
-            this.timeSlots = slots;
+            this.timeslots = slots;
           },
           error: (error) => {
-            console.error('Failed to fetch time slots', error);
+            console.error('Failed to fetch timeslots', error);
           },
         });
       }
 
 
-    loadDisabledTimeSlots(): void {
-        this.disabledTimeslotService.getAllDisabledTimeSlots().subscribe((data) => {
-            this.disabledTimeSlots = data;
+    loadDisabledTimeslots(): void {
+        this.disabledTimeslotService.getAllDisabledTimeslots().subscribe((data) => {
+            this.disabledTimeslots = data;
           });
     }
 
-    reserveTimeSlot(reservation: IReservation): void {
+    reserveTimeslot(reservation: IReservation): void {
         if (reservation) {
         this.reservationService
             .createReservation(reservation)

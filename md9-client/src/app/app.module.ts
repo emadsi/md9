@@ -27,7 +27,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { TimeSlotComponent } from './components/timeSlot/timeSlot.component';
+import { TimeslotComponent } from './components/timeslot/timeslot.component';
 import { ConfirmationNumberComponent } from './components/confirmation-number/confirmation-number.component';
 import { ViewReservationsComponent } from './components/view-reservations/view-reservations.component';
 import { BlockTimeslotsComponent } from './components/block-timeslots/block-timeslots.component';
@@ -49,7 +49,7 @@ import { ConfirmPaymentsComponent } from './components/confirm-payments/confirm-
     PaymentFormComponent,
     LoginPageComponent,
     FieldReservationComponent,
-    TimeSlotComponent,
+    TimeslotComponent,
     ConfirmationNumberComponent,
     ViewReservationsComponent,
     BlockTimeslotsComponent,

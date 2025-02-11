@@ -1,56 +1,58 @@
 import { Component, OnInit } from '@angular/core';
-import { TimeSlotService } from '../../services/timeSlot/timeSlot.service';
-import { ITimeSlot } from '../../models/timeslot/timeslot.interface';
+import { TimeslotService } from '../../services/timeslot/timeslot.service';
+import { ITimeslot } from '../../models/timeslot/timeslot.interface';
 
 
 @Component({
-  selector: 'app-timeSlot',
-  templateUrl: './timeSlot.component.html',
-  styleUrls: ['./timeSlot.component.scss'],
+  selector: 'app-timeslot',
+  templateUrl: './timeslot.component.html',
+  styleUrls: ['./timeslot.component.scss'],
   standalone: false
 })
-export class TimeSlotComponent implements OnInit {
-  timeSlots: ITimeSlot[] = [];
+export class TimeslotComponent implements OnInit {
+  timeslots: ITimeslot[] = [];
+  fieldId: string = '';
   newFrom = '';
   newTo = '';
   blockDate: Date;
-  selectedTimeSlotId: number;
+  selectedTimeslotId: string;
 
-  constructor(private timeSlotService: TimeSlotService) {}
+  constructor(private timeslotService: TimeslotService) {}
 
   ngOnInit(): void {
-    this.loadTimeSlots();
+    this.loadTimeslots();
   }
 
-  loadTimeSlots(): void {
-    this.timeSlotService.getAllTimeSlots().subscribe((data) => {
-      this.timeSlots = data;
+  loadTimeslots(): void {
+    this.timeslotService.getAllTimeslots().subscribe((data) => {
+      this.timeslots = data;
     });
   }
 
-  addTimeSlot(): void {
-    if (this.newFrom && this.newTo) {
-      this.timeSlotService.addTimeSlot(this.newFrom, this.newTo).subscribe(() => {
-        this.loadTimeSlots();
+  addTimeslot(): void {
+    if (this.newFrom && this.newTo && this.fieldId) {
+      this.timeslotService.addTimeslot(this.newFrom, this.newTo, this.fieldId).subscribe(() => {
+        this.loadTimeslots();
         this.newFrom = '';
         this.newTo = '';
+        this.fieldId = '';
       });
     }
   }
 
-  blockTimeSlot(): void {
-    if (this.selectedTimeSlotId && this.blockDate) {
-      this.timeSlotService
-        .blockTimeSlot(this.selectedTimeSlotId, this.blockDate)
+  blockTimeslot(): void {
+    if (this.selectedTimeslotId && this.blockDate) {
+      this.timeslotService
+        .blockTimeslot(this.selectedTimeslotId, this.blockDate.toString())
         .subscribe(() => {
           alert('Time slot blocked!');
         });
     }
   }
 
-  blockAllTimeSlots(): void {
+  blockAllTimeslots(): void {
     if (this.blockDate) {
-      this.timeSlotService.blockAllTimeSlots(this.blockDate).subscribe(() => {
+      this.timeslotService.blockAllTimeslots(this.blockDate).subscribe(() => {
         alert('All time slots blocked!');
       });
     }

@@ -15,9 +15,9 @@
       [formControl]="date"
       required
     />
-    <select [formGroup]="timeSlot" required>
+    <select [formGroup]="timeslot" required>
       <option value="">Select Time Slot</option>
-      <option *ngFor="let timeSlot of timeSlots" value={{timeSlot.id}}>{{timeSlot.from}} - {{timeSlot.to}}</option>
+      <option *ngFor="let timeslot of timeslots" value={{timeslot.id}}>{{timeslot.from}} - {{timeslot.to}}</option>
     </select>
     <button type="submit">Proceed to Payment</button>
   </form> -->
@@ -37,7 +37,7 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Available Time Slots</mat-label>
-      <mat-select formControlName="timeSlot" required>
+      <mat-select formControlName="timeslot" required>
         <mat-option *ngFor="let slot of availableSlots" [value]="slot">
           {{ slot }}
         </mat-option>

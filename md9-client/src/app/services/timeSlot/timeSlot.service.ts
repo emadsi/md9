@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
-import { ITimeSlot } from '../../models/timeslot/timeslot.interface';
+import { ITimeslot } from '../../models/timeslot/timeslot.interface';
 import { environment } from '../../../environments/environment';
-// import { TimeSlot } from '../../models/timeslot/timeslot.interface';
+// import { Timeslot } from '../../models/timeslot/timeslot.interface';
 
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class TimeSlotService {
-  private baseUrl = `${environment.apiUrl}/timeslots'`;
+export class TimeslotService {
+  private baseUrl = `${environment.apiUrl}/timeslots`;
 
   constructor(private http: HttpClient) {}
 
-  getAllTimeSlots(): Observable<ITimeSlot[]> {
-    return this.http.get<ITimeSlot[]>(`${this.baseUrl}/all`).pipe(
+  getAllTimeslots(): Observable<ITimeslot[]> {
+    return this.http.get<ITimeslot[]>(`${this.baseUrl}`).pipe(
       catchError((error) => {
         console.error('Error fetching reservations', error);
         return of([]); // Return empty array on failure
@@ -24,19 +24,23 @@ export class TimeSlotService {
     );
   }
 
-  addTimeSlot(from: string, to: string, fieldId: string): Observable<ITimeSlot> {
-    return this.http.post<void>(`${this.baseUrl}/add`, { from, to, fieldId });
+  addTimeslot(from: string, to: string, fieldId: string): Observable<ITimeslot> {
+    return this.http.post<ITimeslot>(`${this.baseUrl}/add`, { from, to, fieldId });
   }
 
-  blockTimeSlot(timeSlotId: number, date: Date): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/block`, { timeSlotId, date });
+  blockTimeslot(timeslotId: string, date: string): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/block`, { timeslotId, date });
   }
 
-  blockAllTimeSlots(date: Date): Observable<void> {
+  unblockTimeslot(timeslotId: string, date: string): Observable<boolean> {
+    return this.http.post<boolean>(`${this.baseUrl}/unblock`, { timeslotId, date});
+  }
+
+  blockAllTimeslots(date: Date): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/block-all`, { date });
   }
 
-  deleteTimeSlot(timeSlotId: number): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/`, {timeSlotId});
+  deleteTimeslot(timeslotId: string): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/`, {timeslotId});
   }
 }

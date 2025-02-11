@@ -10,22 +10,14 @@ export enum ReservationStatus {
 }
 
 export interface IReservation {
-    reservationId: number;
+    reservationId: string;
     reserverName: string;
     mobile: string;
     date: Date;
     fieldId: string;
-    timeSlotId: number;
+    timeslotId: string;
     paymentMethod: IPaymentMethod; // "Cash" or "Credit"
-    confirmationNo: number;
+    confirmationNo: string;
     status: ReservationStatus; // "Done", "Cancelled", "Pending"
     createdAt: string;
 }
-
-export interface Cancellation {
-    cancellationId: string;
-    reservationId: string;
-    reason: string;
-    cancelledBy: 'ADMIN' | 'USER';
-    createdAt: string;
-  }
