@@ -9,20 +9,15 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
-    // if (!this.authService.isAuthenticated()) {
-    //   this.router.navigate(['/login']);
-    //   return false;
-    // }
-    // return true;
 
-    const publicRoutes = ['/login', '/', 'reservations']; // Add other public routes if necessary
-    const url: string = route.url.map((segment) => segment.path).join('/');
+    const publicRoutes = ['login', '/', 'reservation/:fieldId', 'payment', 'cancel']; // Add other public routes if necessary
+    const url: string = route.url.map(segment => segment.path).join('/');
 
     if (publicRoutes.includes(`/${url}`)) {
       return true; // Allow access to public routes
     }
 
-    if (this.authService.isAuthenticated()) {
+    if (this.authService.isLoggedIn()) {
       return true;
     } else {
       this.router.navigate(['/login']);
