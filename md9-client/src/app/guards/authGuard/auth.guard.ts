@@ -9,11 +9,11 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
+    const publicRoutes = ['home', 'login', 'reservation', 'payment', 'cancel']; // Publicly accessible routes
 
-    const publicRoutes = ['login', '/', 'reservation/:fieldId', 'payment', 'cancel']; // Add other public routes if necessary
-    const url: string = route.url.map(segment => segment.path).join('/');
+    const url: string = route.routeConfig?.path?.split('/')[0] || ''; // Extract the first part of the path
 
-    if (publicRoutes.includes(`/${url}`)) {
+    if (publicRoutes.includes(url)) {
       return true; // Allow access to public routes
     }
 

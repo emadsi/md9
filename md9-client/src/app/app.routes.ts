@@ -7,7 +7,8 @@ import { PaymentPageComponent } from "./pages/payment-page/payment-page.componen
 import { ReservationPageComponent } from "./pages/reservation-page/reservation-page.component";
 
 export const routes: Routes = [
-    { path: '', component: HomePageComponent },
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
+    { path: 'home', component: HomePageComponent },
     { path: 'reservation/:fieldId', component: ReservationPageComponent },
     { path: 'login', component: LoginPageComponent },
     { path: 'payment', component: PaymentPageComponent },

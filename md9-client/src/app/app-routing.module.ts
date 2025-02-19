@@ -17,7 +17,6 @@ const routes: Routes = [
   { path: 'cancel', component: CancelPageComponent },
   { path: 'admin', component: AdminPageComponent, canActivate: [AuthGuard] },
   { path: 'timeslot', component: TimeslotComponent},
-  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
