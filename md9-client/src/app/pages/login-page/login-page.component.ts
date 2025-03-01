@@ -4,39 +4,48 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
-    selector: 'app-login-page',
-    templateUrl: './login-page.component.html',
-    styleUrl: './login-page.component.scss',
-    standalone: false
+  selector: 'app-login-page',
+  templateUrl: './login-page.component.html',
+  styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent implements OnInit {
-    loginForm: FormGroup;
-    loginError: string | null = null;
-  
-    constructor(
-      private fb: FormBuilder,
-      private authService: AuthService,
-      private router: Router
-    ) {}
+  loginForm!: FormGroup;
+  loginError: string | null = null;
+  loading = false;
 
-    ngOnInit(): void {
-      this.loginForm = this.fb.group({
-        username: ['', [Validators.required]],
-        password: ['', [Validators.required]]
-      });
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]]
+    });
+  }
+
+  onLogin() {
+    if (this.loginForm.invalid) {
+      this.loginError = 'Please enter a valid username and password.';
+      return;
     }
-  
-    onLogin() {
-      if (this.loginForm.valid) {
-        const { username, password } = this.loginForm.value;
-        this.authService.login(username, password).subscribe({
-          next: () => {
-            this.router.navigate(['/admin']);
-          },
-          error: (err) => {
-            this.loginError = 'Invalid username or password. Please try again.';
-          }
-        });
+
+    this.loading = true;
+    this.loginError = null;
+
+    const { username, password } = this.loginForm.value;
+
+    this.authService.login(username, password).subscribe({
+      next: () => {
+        this.loading = false;
+        this.router.navigate(['/admin']);
+      },
+      error: (err) => {
+        this.loading = false;
+        this.loginError = err.message; // Display detailed error message
       }
-    }
+    });
+  }
 }
