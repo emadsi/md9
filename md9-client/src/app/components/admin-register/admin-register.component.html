@@ -1,0 +1,16 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <input type="text" formControlName="name" placeholder="Full Name" required />
+    <input type="text" formControlName="username" placeholder="Username" required />
+    <input type="password" formControlName="password" placeholder="Password" required />
+    <input type="email" formControlName="email" placeholder="Email" required />
+    
+    <label>
+      <input type="checkbox" formControlName="isSuperAdmin" /> Is Super Admin
+    </label>
+    
+    <button type="submit" [disabled]="registerForm.invalid">Register Admin</button>
+  
+    <!-- ✅ Show success or error messages -->
+    <p *ngIf="message" class="message">{{ message }}</p>
+  </form>
+  

@@ -4,4 +4,5 @@ export interface IAdmin {
     username: string;
     password: string;
     email: string;
+    isSuperAdmin: boolean;
 }

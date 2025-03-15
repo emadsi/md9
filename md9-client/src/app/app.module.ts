@@ -38,6 +38,7 @@ import { ConfirmPaymentsComponent } from './components/confirm-payments/confirm-
 
 import { BlockDialogComponent } from './components/block-dialog/block-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AdminRegisterComponent } from './components/admin-register/admin-register.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     BlockTimeslotsComponent,
     AddTimeslotsComponent,
     ConfirmPaymentsComponent,
-    BlockDialogComponent
+    BlockDialogComponent,
+    AdminRegisterComponent
   ],
   imports: [
     AppRoutingModule,

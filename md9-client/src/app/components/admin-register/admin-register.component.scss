@@ -1,0 +1,19 @@
+:host {
+    form {
+        display: flex;
+        flex-direction: column;
+        max-width: 400px;
+        margin: auto;
+    }
+    
+    input, button {
+        margin: 10px 0;
+        padding: 10px;
+    }
+    
+    .message {
+        font-weight: bold;
+        text-align: center;
+        color: #d9534f;
+    }      
+}

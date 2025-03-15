@@ -16,7 +16,7 @@ export class TimeslotService {
   constructor(private http: HttpClient) {}
 
   getAllTimeslots(): Observable<ITimeslot[]> {
-    return this.http.get<ITimeslot[]>(`${this.baseUrl}`).pipe(
+    return this.http.get<ITimeslot[]>(`${this.baseUrl}/all`).pipe(
       catchError((error) => {
         console.error('Error fetching reservations', error);
         return of([]); // Return empty array on failure

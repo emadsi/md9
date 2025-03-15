@@ -6,6 +6,10 @@ import { TimeslotService } from '../../services/timeslot/timeslot.service';
 import { DisabledTimeslotService } from '../../services/disabledTimeslot/disabledTimeslot.service';
 import { MatDialog } from '@angular/material/dialog';
 import { BlockDialogComponent } from '../../components/block-dialog/block-dialog.component';
+import { AuthService } from '../../services/auth/auth.service';
+import { IAdmin } from '../../models/admin/admin.interface';
+import { ConfirmationNumberComponent } from '../../components/confirmation-number/confirmation-number.component';
+import { throwError } from 'rxjs';
 
 
 @Component({
@@ -15,6 +19,7 @@ import { BlockDialogComponent } from '../../components/block-dialog/block-dialog
   standalone: false
 })
 export class AdminPageComponent implements OnInit {
+  admin: IAdmin;
   reservations: any[] = [];
   displayedColumns: string[] = ['id', 'user', 'field', 'date', 'time', 'actions'];
   
@@ -24,8 +29,10 @@ export class AdminPageComponent implements OnInit {
   selectedSlot: any;
   selectedBlockDate: any;
   blockDate: Date | null = null;
+  isSuperAdmin: Boolean = false;
 
   constructor(
+    private authService: AuthService,
     private adminService: AdminService, 
     private reservationService: ReservationService, 
     private timeslotService: TimeslotService,
@@ -34,6 +41,8 @@ export class AdminPageComponent implements OnInit {
     private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
+    this.admin = this.authService.getAdmin();
+    this.isSuperAdmin = this.authService.isSuperAdmin();
     this.fetchReservations();
     this.loadTimeslots();
   }
@@ -118,6 +127,22 @@ export class AdminPageComponent implements OnInit {
         result => result ? this.snackBar.open('Timeslot is Unblocked anymore')
         : this.snackBar.open('Can not Unblock Timeslot. try again later', 'Close', { duration: 4000 })
     )
+  }
+
+  registerAdmin(admin: IAdmin) {
+    this.adminService.registerAdmin(admin).subscribe({
+      next: (response) => {
+        this.dialog.open(ConfirmationNumberComponent, {
+          data: {
+            message: 'You have successfully registered a new admin.',
+            adminId: response
+          }
+        });
+      },
+      error: (err) => {
+        throwError(() => new Error(`Faild to connect to Server! \n Error: ${err}`));
+      }
+    });
   }
 
   unlockDeposit(id: string) {
