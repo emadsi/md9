@@ -4,5 +4,6 @@ export interface IAdmin {
     username: string;
     password: string;
     email: string;
+    mobile: string;
     isSuperAdmin: boolean;
 }

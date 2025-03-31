@@ -15,5 +15,29 @@
         font-weight: bold;
         text-align: center;
         color: #d9534f;
-    }      
+    }   
+    
+    .error-message {
+        color: red;
+        font-size: 0.9rem;
+        margin-top: 2px;
+        display: block;
+    }
+
+   /* ✅ Ensure border changes correctly */
+    input {
+        width: 70%;
+        border: 2px solid gray;
+        transition: border-color 0.3s ease-in-out;
+    }
+  
+    /* ✅ Apply red border only when invalid */
+    .invalid {
+        border-color: red !important;
+    }
+    
+    /* ✅ Apply green border when valid */
+    .valid {
+        border-color: gray !important;
+    }  
 }

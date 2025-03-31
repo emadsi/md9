@@ -5,7 +5,8 @@
             <button mat-button (click)="setView('timeslots')">Manage Timeslots</button>
             <button mat-button (click)="setView('reservations')">Manage Reservations</button>
             <button mat-button (click)="setView('blocked')">Blocked Timeslots</button>
-            <button *ngIf="isSuperAdmin" (click)="setView('register')" class="btn btn-primary">Register New Admin</button>
+            <button mat-button *ngIf="isSuperAdmin" (click)="setView('register')">Register New Admin</button>
+            <button mat-button (click)="setView('updateAdmin')">update Admin Data</button>
         </mat-sidenav>
 
         <mat-sidenav-content class="content">
@@ -68,6 +69,10 @@
 
             <ng-container *ngIf="currentView === 'register'">
                 <app-admin-register (registerAdmin)="registerAdmin($event)"></app-admin-register>
+            </ng-container>
+
+            <ng-container *ngIf="currentView === 'updateAdmin'">
+                <app-admin-register [admin]="admin" [isEditMode]="true" (registerAdmin)="updateAdmin($event)"></app-admin-register>
             </ng-container>
 
             <ng-container *ngIf="currentView === 'reservations'">

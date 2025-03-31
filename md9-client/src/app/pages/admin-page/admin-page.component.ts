@@ -145,6 +145,21 @@ export class AdminPageComponent implements OnInit {
     });
   }
 
+  updateAdmin(admin: IAdmin) {
+    this.adminService.updateAdmin(admin).subscribe({
+      next: () => {
+          // alert("Profile updated successfully");
+          this.dialog.open(ConfirmationNumberComponent, {
+            data: {
+              message: 'Profile updated successfully',
+              adminId: admin.adminId
+            }
+          });
+      },
+      error: (err) => alert(err.error),
+  });
+  }
+
   unlockDeposit(id: string) {
     // this.adminService.unlockDeposit(id).subscribe(() => {
     //   this.snackBar.open('Deposit Unlocked!', 'Close', { duration: 3000 });

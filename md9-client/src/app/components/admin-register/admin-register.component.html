@@ -1,16 +1,51 @@
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <input type="text" formControlName="name" placeholder="Full Name" required />
-    <input type="text" formControlName="username" placeholder="Username" required />
-    <input type="password" formControlName="password" placeholder="Password" required />
-    <input type="email" formControlName="email" placeholder="Email" required />
-    
-    <label>
-      <input type="checkbox" formControlName="isSuperAdmin" /> Is Super Admin
-    </label>
-    
-    <button type="submit" [disabled]="registerForm.invalid">Register Admin</button>
+  <input *ngIf="isEditMode" type="text" formControlName="id" placeholder="ID"/>
+  <input type="text" formControlName="name" placeholder="Full Name" required />
+  <input [disabled]="isEditMode" type="text" formControlName="username" placeholder="Username" required />
   
-    <!-- ✅ Show success or error messages -->
-    <p *ngIf="message" class="message">{{ message }}</p>
-  </form>
+  <!-- Password Fields -->
+  <div>
+    <input *ngIf="!isEditMode" type="password" formControlName="password" placeholder="Password" required 
+      [ngClass]="{ 'invalid': registerForm.get('password').invalid && registerForm.get('password').touched }" />
+    <input *ngIf="!isEditMode" type="password" formControlName="confirmPassword" placeholder="Confirm Password" required
+      [ngClass]="{ 'invalid': registerForm.get('confirmPassword').invalid && registerForm.get('confirmPassword').touched }" />
+    <small *ngIf="registerForm.get('password').invalid || registerForm.hasError('passwordsMismatch')" class="error-message">
+      {{ getPasswordErrorMessage() }}
+    </small>
+  </div>
+
+  <!-- Mobile Number -->
+  <div>
+    <input 
+      type="text" 
+      formControlName="mobile" 
+      placeholder="Mobile Number" 
+      required
+      [ngClass]="{
+        'invalid': registerForm.get('mobile').invalid && registerForm.get('mobile').touched,
+        'valid': registerForm.get('mobile').valid && registerForm.get('mobile').touched
+      }"
+    />
+    <small *ngIf="registerForm.get('mobile').invalid && registerForm.get('mobile').touched" class="error-message">
+      {{ getMobileErrorMessage() }}
+    </small>
+  </div>
+
+  <!-- Email -->
+  <div>
+    <input type="email" formControlName="email" placeholder="Email" required 
+      [ngClass]="{ 'invalid': registerForm.get('email').invalid && registerForm.get('email').touched }" />
+    <small *ngIf="registerForm.get('email').invalid && registerForm.get('email').touched" class="error-message">
+      {{ getEmailErrorMessage() }}
+    </small>
+  </div>
+    
+  <label *ngIf="!isEditMode">
+    <input type="checkbox" formControlName="isSuperAdmin" /> Is Super Admin
+  </label>
   
+  <button type="submit" [disabled]="registerForm.invalid">{{isEditMode ? 'Save' : 'Register Admin' }}</button>
+
+  <!-- ✅ Show success or error messages -->
+  <p *ngIf="message" class="message">{{ message }}</p>
+</form>

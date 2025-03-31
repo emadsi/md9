@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable, catchError, throwError } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { IAdmin } from '../../models/admin/admin.interface';
 
 @Injectable({
@@ -12,10 +12,31 @@ export class AdminService {
   
   constructor(private http: HttpClient) { }
 
-  registerAdmin(newAdmin: IAdmin): Observable<String> {
-    return this.http.post<String>(`${this.baseUrl}/register`, newAdmin).pipe(
+  registerAdmin(newAdmin: IAdmin): Observable<string> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${sessionStorage.getItem('authToken')}`, // ✅ Include JWT token
+      'Content-Type': 'application/json'
+    });
+  
+    return this.http.post<string>(`${this.baseUrl}/register`, newAdmin, { headers }).pipe(
       catchError(this.handleError)
-    )
+    );
+  }  
+
+  updateAdmin(admin: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/update`, admin);
+  }
+
+  changePassword(passwordData: any): Observable<any> {
+      return this.http.put(`${this.baseUrl}/change-password`, passwordData);
+  }
+
+  forgotPassword(username: string, email: string): Observable<any> {
+      return this.http.post(`${this.baseUrl}/forgot-password`, { username, email });
+  }
+
+  resetPassword(token: string, newPassword: string): Observable<any> {
+      return this.http.post(`${this.baseUrl}/reset-password`, { token, newPassword });
   }
 
   unlockDeposit(reservationId: string): Observable<boolean> {
