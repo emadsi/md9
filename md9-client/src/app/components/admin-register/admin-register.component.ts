@@ -12,9 +12,9 @@ import { mobileValidator } from '../../validators/mobile-validator/mobile-valida
 export class AdminRegisterComponent implements OnInit, OnChanges {
   @Input() admin: IAdmin = null;
   @Input() isEditMode: boolean = false;
+  @Input() message: string | null = null; // ✅ Display messages
   @Output() registerAdmin = new EventEmitter<IAdmin>();
   registerForm: FormGroup;
-  message: string | null = null; // ✅ Display messages
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -58,7 +58,6 @@ export class AdminRegisterComponent implements OnInit, OnChanges {
       const { confirmPassword, ...formData } = this.registerForm.getRawValue(); 
       this.registerAdmin.emit(formData);
       this.registerForm.reset(); // ✅ Clear form after success
-      this.message = `✅ Registration successful!`;
     } else {
       this.message = '❌ Please fill in all required fields.';
     }

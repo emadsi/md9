@@ -30,6 +30,7 @@ export class AdminPageComponent implements OnInit {
   selectedBlockDate: any;
   blockDate: Date | null = null;
   isSuperAdmin: Boolean = false;
+  message: string | null = null; // ✅ Display messages
 
   constructor(
     private authService: AuthService,
@@ -138,9 +139,11 @@ export class AdminPageComponent implements OnInit {
             adminId: response
           }
         });
+        this.message = `✅ Registration successful!`;
       },
       error: (err) => {
         throwError(() => new Error(`Faild to connect to Server! \n Error: ${err}`));
+        this.message = `❌ Faild to Register Admin!`;
       }
     });
   }

@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, tap, catchError, throwError } from 'rxjs';
+import { Observable, tap, catchError, throwError, Subscription, fromEvent, merge, timer } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { IAdmin } from '../../models/admin/admin.interface';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -12,9 +13,25 @@ export class AuthService {
   private readonly TOKEN_KEY = 'authToken'; // Key to store the token
   private readonly ADMIN_ROLE_KEY = 'isSuperAdmin';
   private readonly ADMIN_DATA = 'adminData';
+  private readonly SESSION_KEY = 'md9Session';
+
+  private readonly INACTIVITY_LIMIT_MS = 30 * 60 * 1000; // 30 minutes
+  private inactivityTimer?: Subscription;
+  private isBrowser: boolean;
+  
   private apiUrl = `${environment.apiUrl}/auth`; // Correct API endpoint
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    @Inject(PLATFORM_ID) platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+
+    if (this.isBrowser) {
+      this.setupInactivityListener();
+    }
+  }
 
   /**
    * Login function - sends credentials to backend
@@ -22,9 +39,12 @@ export class AuthService {
   login(username: string, password: string): Observable<{ token: string, isSuperAdmin: boolean, admin: IAdmin }> {
     return this.http.post<{ token: string, isSuperAdmin: boolean, admin: IAdmin }>(`${this.apiUrl}/login`, { username, password }).pipe(
       tap((response) => {
+        // ✅ Set sessionStorage key to indicate session active
         localStorage.setItem(this.TOKEN_KEY, response.token); // Use localStorage for security
         localStorage.setItem(this.ADMIN_ROLE_KEY, JSON.stringify(response.isSuperAdmin));
         localStorage.setItem(this.ADMIN_DATA, JSON.stringify(response.admin));
+        sessionStorage.setItem(this.SESSION_KEY, 'active'); // ✅ Without this, isLoggedIn() may return false
+        this.resetInactivityTimer();
       }),
       catchError((error: HttpErrorResponse) => {
         let errorMsg = 'An unknown error occurred!';
@@ -39,28 +59,38 @@ export class AuthService {
   }
 
   saveSessionData(token: string, admin: IAdmin) {
-    if (typeof window !== 'undefined') {  // ✅ Ensure it's running in the browser
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem(this.SESSION_KEY, 'active');
       localStorage.setItem(this.TOKEN_KEY, token);
       localStorage.setItem(this.ADMIN_DATA, JSON.stringify(admin));
+      this.resetInactivityTimer();
     }
   }
 
-  /**
-   * Check if user is logged in by verifying if a token exists
-   */
+  // ✅ Everywhere you used `typeof window !== 'undefined'`, you can now use `this.isBrowser`
   isLoggedIn(): boolean {
-    if (typeof window === 'undefined') return false; // ✅ Prevent error in SSR
-    return !!localStorage.getItem(this.TOKEN_KEY);
+    return this.isBrowser &&
+      !!localStorage.getItem(this.TOKEN_KEY) &&
+      sessionStorage.getItem(this.SESSION_KEY) === 'active';
   }
 
   /**
    * Logout function to clear token and redirect to login page
    */
   logout(): void {
-    if (typeof window !== 'undefined') {
+    if (this.isBrowser) {
       localStorage.removeItem(this.TOKEN_KEY);
+      localStorage.removeItem(this.ADMIN_ROLE_KEY);
       localStorage.removeItem(this.ADMIN_DATA);
+      sessionStorage.removeItem(this.SESSION_KEY);
+      sessionStorage.removeItem(this.TOKEN_KEY);
+
+      // Optionally: clear all to be extra safe
+      sessionStorage.clear();
+      localStorage.clear();
     }
+
+    if (this.inactivityTimer) this.inactivityTimer.unsubscribe();
     this.router.navigate(['/']);
   }
 
@@ -68,17 +98,42 @@ export class AuthService {
    * Get authentication token (for API requests)
    */
   getToken(): string | null {
-    if (typeof window === 'undefined') return null;
-    return localStorage.getItem(this.TOKEN_KEY);
+    return typeof window !== 'undefined' ? localStorage.getItem(this.TOKEN_KEY) : null;
   }
 
   isSuperAdmin(): boolean {
-    if (typeof window === 'undefined') return false; // ✅ Prevent error in SSR
-    return JSON.parse(localStorage.getItem(this.ADMIN_ROLE_KEY) || 'false');
+    return typeof window !== 'undefined'
+      ? JSON.parse(localStorage.getItem(this.ADMIN_ROLE_KEY) || 'false')
+      : false;
   }
 
   getAdmin(): IAdmin {
-    if (typeof window === 'undefined') return null; // ✅ Prevent error in SSR
-    return JSON.parse(localStorage.getItem(this.ADMIN_DATA) || null);
+    return typeof window !== 'undefined'
+      ? JSON.parse(localStorage.getItem(this.ADMIN_DATA) || 'null')
+      : null;
+  }
+
+  /**
+   * Inactivity timeout setup
+   */
+  private setupInactivityListener(): void {
+    if (!this.isBrowser) return;
+
+    const events = ['mousemove', 'keydown', 'mousedown', 'scroll', 'touchstart'];
+    const allEvents$ = merge(...events.map(evt => fromEvent(document, evt)));
+
+    allEvents$.subscribe(() => this.resetInactivityTimer());
+    this.resetInactivityTimer();
+  }
+
+  private resetInactivityTimer(): void {
+    if (this.inactivityTimer) {
+      this.inactivityTimer.unsubscribe();
+    }
+
+    this.inactivityTimer = timer(this.INACTIVITY_LIMIT_MS).subscribe(() => {
+      this.logout();
+      alert('You were logged out due to inactivity.');
+    });
   }
 }

@@ -1,7 +1,7 @@
 <header class="header">
     <h1><a  href='/'> Welcome to MD9</a></h1>
     <div>
-      <button *ngIf="isAdminLogged" class="btn btn-warn" (click)="logout()">Logout</button>
+      <button *ngIf="isAdminLogged" class="admin-logout" (click)="logout()">Logout</button>
       <button class='admin-button' (click)="handleAdminLogin()">Admin Zone</button>
     </div>
   </header>

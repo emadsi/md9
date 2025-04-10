@@ -72,7 +72,7 @@
             </ng-container>
 
             <ng-container *ngIf="currentView === 'updateAdmin'">
-                <app-admin-register [admin]="admin" [isEditMode]="true" (registerAdmin)="updateAdmin($event)"></app-admin-register>
+                <app-admin-register [admin]="admin" [isEditMode]="true" (registerAdmin)="updateAdmin($event)" [message]="message"></app-admin-register>
             </ng-container>
 
             <ng-container *ngIf="currentView === 'reservations'">
