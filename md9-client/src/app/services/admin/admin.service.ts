@@ -13,15 +13,12 @@ export class AdminService {
   constructor(private http: HttpClient) { }
 
   registerAdmin(newAdmin: IAdmin): Observable<string> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${sessionStorage.getItem('authToken')}`, // ✅ Include JWT token
-      'Content-Type': 'application/json'
-    });
-  
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
     return this.http.post<string>(`${this.baseUrl}/register`, newAdmin, { headers }).pipe(
       catchError(this.handleError)
     );
-  }  
+  }
 
   updateAdmin(admin: any): Observable<any> {
     return this.http.put(`${this.baseUrl}/update`, admin);
