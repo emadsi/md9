@@ -1,6 +1,6 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, tap, catchError, throwError, Subscription, fromEvent, merge, timer } from 'rxjs';
+import { Observable, tap, catchError, throwError, Subscription, fromEvent, merge, timer, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { IAdmin } from '../../models/admin/admin.interface';
@@ -18,6 +18,9 @@ export class AuthService {
   private readonly INACTIVITY_LIMIT_MS = 30 * 60 * 1000; // 30 minutes
   private inactivityTimer?: Subscription;
   private isBrowser: boolean;
+
+  private isAdminLoggedInSubject = new BehaviorSubject<boolean>(!!this.getAdmin());
+  isAdminLoggedIn$ = this.isAdminLoggedInSubject.asObservable();
   
   private apiUrl = `${environment.apiUrl}/auth`; // Correct API endpoint
 
@@ -44,6 +47,7 @@ export class AuthService {
         localStorage.setItem(this.ADMIN_ROLE_KEY, JSON.stringify(response.isSuperAdmin));
         localStorage.setItem(this.ADMIN_DATA, JSON.stringify(response.admin));
         sessionStorage.setItem(this.SESSION_KEY, 'active'); // ✅ Without this, isLoggedIn() may return false
+        this.isAdminLoggedInSubject.next(true);
         this.resetInactivityTimer();
       }),
       catchError((error: HttpErrorResponse) => {
@@ -84,14 +88,14 @@ export class AuthService {
       localStorage.removeItem(this.ADMIN_DATA);
       sessionStorage.removeItem(this.SESSION_KEY);
       sessionStorage.removeItem(this.TOKEN_KEY);
-
+      this.isAdminLoggedInSubject.next(false);
+      
       // Optionally: clear all to be extra safe
       sessionStorage.clear();
       localStorage.clear();
     }
 
     if (this.inactivityTimer) this.inactivityTimer.unsubscribe();
-    this.router.navigate(['/']);
   }
 
   /**

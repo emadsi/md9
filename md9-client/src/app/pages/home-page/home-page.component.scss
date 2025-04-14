@@ -1,74 +1,12 @@
 /* /src/pages/homePage/HomePage.css */
 :host {
-    // .homepage {
-    //     display: flex;
-    //     flex-direction: column;
-    //     justify-content: space-between;
-    //     height: 100%;
-    // }
-  
-    // .content {
-    //     display: flex;
-    //     flex-direction: column;
-    //     justify-content: center;
-    //     align-items: center;
-    //     flex-grow: 1;
-    // }
-    
-    // .fields-container {
-    //     display: flex;
-    //     flex-direction: row;
-    //     justify-content: space-around;
-    //     width: 100%;
-    //     padding: 40px 0;
-    // }
-    
-    // .field {
-    //     display: flex;
-    //     flex-direction: column;
-    //     align-items: center;
-    // }
-    
-    // .field-image {
-    //     width: 300px;
-    //     height: 200px;
-    //     object-fit: cover;
-    // }
-    
-    // .reserve-button {
-    //     margin-top: 10px;
-    //     padding: 10px 20px;
-    //     background-color: #008cba;
-    //     color: white;
-    //     border: none;
-    //     cursor: pointer;
-    // }
-    
-    // .cancel-reservation {
-    //     margin-top: 20px;
-    // }
-    
-    // .cancel-button {
-    //     padding: 10px 20px;
-    //     background-color: red;
-    //     color: white;
-    //     border: none;
-    //     cursor: pointer;
-    // }
-    
-    // .footer {
-    //     text-align: center;
-    //     padding: 10px;
-    //     background-color: #003366;
-    //     color: white;
-    // }
-    
+
     .homepage {
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 20px;
-        gap: 20px;
+        gap: 70px;
 
         // Cancellation button styles
         .cancellation {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 
@@ -8,12 +8,16 @@ import { AuthService } from '../../services/auth/auth.service';
     styleUrl: './header.component.scss',
     standalone: false
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   private readonly ADMIN_DATA = 'adminData';
   isAdminLogged: boolean = false
 
-  constructor(private router: Router, private authService: AuthService) {
-    this.isAdminLogged = !!this.authService.getAdmin();
+  constructor(private router: Router, private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.isAdminLoggedIn$.subscribe((status) => {
+      this.isAdminLogged = status;
+    });
   }
 
   handleHomePage() {
@@ -26,7 +30,7 @@ export class HeaderComponent {
 
   logout() {
     this.authService.logout();
-    localStorage.clear();
+    this.router.navigate(['/']);
   }
 
 }

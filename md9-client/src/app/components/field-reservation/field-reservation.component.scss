@@ -2,6 +2,8 @@
     .field-reservation {
         display: flex;
         flex-direction: column;
+        align-content: center;
+        flex-wrap: wrap;
         align-items: stretch;
     }
     
@@ -15,7 +17,7 @@
     }
     
     .field-image {
-        width: 10%;
-        height: 10%;
+        width: 50%;
+        height: 200px;
     }
 }
