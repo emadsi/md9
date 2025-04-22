@@ -1,83 +1,181 @@
 /* /src/pages/homePage/HomePage.css */
-:host {
+// :host {
 
-    .homepage {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-        gap: 70px;
+//     .homepage {
+//         display: flex;
+//         flex-direction: column;
+//         align-items: center;
+//         padding: 20px;
+//         gap: 70px;
 
-        // Cancellation button styles
-        .cancellation {
-            text-align: center;
+//         // Cancellation button styles
+//         .cancellation {
+//             text-align: center;
 
-            button {
-                font-size: 1rem;
-                padding: 10px 20px;
-                background-color: #007bff;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                transition: background-color 0.3s;
+//             button {
+//                 font-size: 1rem;
+//                 padding: 10px 20px;
+//                 background-color: #007bff;
+//                 color: white;
+//                 border: none;
+//                 border-radius: 5px;
+//                 cursor: pointer;
+//                 transition: background-color 0.3s;
           
-                &:hover {
-                  background-color: #0056b3;
-                }
-            }
-        }
+//                 &:hover {
+//                   background-color: #0056b3;
+//                 }
+//             }
+//         }
 
-        // Field Reservation components container
-        .fields-container {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between; // Space between the components
-            align-items: center;
-            gap: 20px; // Adds consistent spacing between components
-            width: 100%; // Ensures it adapts to the available width
-            max-width: 800px; // Optional: Restrict maximum width for layout control
+//         // Field Reservation components container
+//         .fields-container {
+//             display: flex;
+//             flex-direction: row;
+//             justify-content: space-between; // Space between the components
+//             align-items: center;
+//             gap: 20px; // Adds consistent spacing between components
+//             width: 100%; // Ensures it adapts to the available width
+//             max-width: 800px; // Optional: Restrict maximum width for layout control
 
-            app-field-reservation {
-                flex: 1; // Allows components to grow and shrink equally
-                max-width: 350px; // Restrict maximum width of each component
-                text-align: center;
+//             app-field-reservation {
+//                 flex: 1; // Allows components to grow and shrink equally
+//                 max-width: 350px; // Restrict maximum width of each component
+//                 text-align: center;
 
-                img {
-                    width: 100%;
-                    height: auto;
-                    border-radius: 10px;
-                }
+//                 img {
+//                     width: 100%;
+//                     height: auto;
+//                     border-radius: 10px;
+//                 }
 
-                button {
-                    margin-top: 10px;
-                    font-size: 1rem;
-                    padding: 10px 20px;
-                    background-color: #28a745;
-                    color: white;
-                    border: none;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    transition: background-color 0.3s;
+//                 button {
+//                     margin-top: 10px;
+//                     font-size: 1rem;
+//                     padding: 10px 20px;
+//                     background-color: #28a745;
+//                     color: white;
+//                     border: none;
+//                     border-radius: 5px;
+//                     cursor: pointer;
+//                     transition: background-color 0.3s;
             
-                    &:hover {
-                      background-color: #218838;
-                    }
-                }
-            }
-        }
+//                     &:hover {
+//                       background-color: #218838;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+
+//     // Media query for small screens
+//     @media (max-width: 768px) {
+//         .fields-container {
+//         flex-direction: column; // Stacks the components vertically
+//         gap: 30px;
+//         }
+    
+//         .cancellation button {
+//         font-size: 0.9rem;
+//         padding: 8px 16px;
+//         }
+//     }
+// }  
+
+:host {
+    .home-page {
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
     }
 
-    // Media query for small screens
-    @media (max-width: 768px) {
-        .fields-container {
-        flex-direction: column; // Stacks the components vertically
-        gap: 30px;
-        }
-    
-        .cancellation button {
-        font-size: 0.9rem;
-        padding: 8px 16px;
-        }
+    .fields-container {
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
     }
-}  
+
+    .field-reservation {
+      // display: flex;
+      // flex-direction: column;
+      // align-items: center;
+      // justify-content: space-between;
+      // text-align: center;
+      padding: 16px;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease;
+      height: 100%;
+  
+      &:hover {
+        transform: translateY(-4px);
+      }
+    }
+  
+    .field-image {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+  
+    .reserve-button {
+      margin-top: 16px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      background-color: #00b894;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+  
+      &:hover {
+        background-color: #019172;
+      }
+    }
+
+    .cancellation {
+        margin-top: 30px; // Push down below sticky header
+        margin-bottom: 15px;
+        text-align: center;
+      
+        button {
+          font-size: 1rem;
+          padding: 12px 24px;
+          background-color: #e17055;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          font-weight: 500;
+          transition: background-color 0.3s, transform 0.2s;
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+          backdrop-filter: blur(8px);
+          // background: rgba(255, 255, 255, 0.05);
+      
+          &:hover {
+            background-color: #d35400;
+            transform: translateY(-2px);
+          }
+        }
+      }
+  
+    @media (max-width: 768px) {
+      .reserve-button {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+      }
+  
+      .field-image {
+        height: 180px;
+      }
+    }
+}
+  

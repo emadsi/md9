@@ -1,33 +1,15 @@
-<!-- <form onsubmit={handleSubmit}>
-    <input type="text"
-      placeholder="Full Name"
-      [formControl]="reserveeName"
-      required
-    />
-    <input type="text" 
-      placeholder="Mobile Number"
-      [formControl]="mobile"
-      required
-    />
-    <input
-      type="date"
-      value={date}
-      [formControl]="date"
-      required
-    />
-    <select [formGroup]="timeslot" required>
-      <option value="">Select Time Slot</option>
-      <option *ngFor="let timeslot of timeslots" value={{timeslot.id}}>{{timeslot.from}} - {{timeslot.to}}</option>
-    </select>
-    <button type="submit">Proceed to Payment</button>
-  </form> -->
 <div class="reservation-form">
-  <mat-calendar ngSkipHydration [(selected)]="selectedDate" (selectedChange)="onDateChange(selectedDate)"></mat-calendar>
+  <!-- Step 1: Pick a date -->
+  <!-- reservation-form.component.html -->
+  <div class="calendar-container" ngSkipHydration>
+    <mat-calendar [(selected)]="selectedDate" (selectedChange)="onDateChange($event)"></mat-calendar>
+  </div>
 
-  <form [formGroup]="reservationForm" *ngIf="availableSlots.length > 0">
+  <!-- Step 2: Show form only after date is selected -->
+  <form [formGroup]="reservationForm" *ngIf="selectedDate">
     <mat-form-field appearance="fill">
       <mat-label>Full Name</mat-label>
-      <input matInput formControlName="fullName" required />
+      <input matInput formControlName="reserverName" required />
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -37,10 +19,21 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Available Time Slots</mat-label>
-      <mat-select formControlName="timeslot" required>
-        <mat-option *ngFor="let slot of availableSlots" [value]="slot">
-          {{ slot }}
+      <mat-select formControlName="timeslotId" required>
+        <mat-option
+          *ngFor="let slot of timeslots"
+          [value]="slot.id"
+          [disabled]="disabledTimeslotIds.includes(slot.id)">
+          {{ slot.startTime }} - {{ slot.endTime }}
         </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Payment Method</mat-label>
+      <mat-select formControlName="paymentMethod" required>
+        <mat-option value="cash">Cash</mat-option>
+        <mat-option value="card">Card</mat-option>
       </mat-select>
     </mat-form-field>
 

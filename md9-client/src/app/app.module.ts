@@ -84,7 +84,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
   providers: [
     AdminService,
     ReservationService,
-    provideHttpClient(withInterceptors([AuthInterceptor])),
+    provideHttpClient(withInterceptors([AuthInterceptor]), withFetch()),
     provideRouter(routes),
     provideClientHydration(),
     provideAnimationsAsync()

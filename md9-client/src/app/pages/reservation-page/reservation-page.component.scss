@@ -1,9 +1,27 @@
+// :host {
+//     .reservation-page {
+//         display: flex;
+//         justify-content: center;
+//         align-items: center;
+//         min-height: 100vh;
+//         background-color: #f9f9f9;
+//     }
+// }
+
 :host {
     .reservation-page {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        background-color: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      background-color: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(6px);
+      border-radius: 15px;
+      margin: auto;
+      width: 100%;
+      max-width: 900px;
+  
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 }
+  

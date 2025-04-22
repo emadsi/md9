@@ -5,13 +5,15 @@ import { AdminPageComponent } from "./pages/admin-page/admin-page.component";
 import { CancelPageComponent } from "./pages/cancel-page/cancel-page.component";
 import { PaymentPageComponent } from "./pages/payment-page/payment-page.component";
 import { ReservationPageComponent } from "./pages/reservation-page/reservation-page.component";
+import { TimeslotComponent } from "./components/timeslot/timeslot.component";
+import { AuthGuard } from "./guards/authGuard/auth.guard";
 
 export const routes: Routes = [
-    { path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: 'home', component: HomePageComponent },
-    { path: 'reservation/:fieldId', component: ReservationPageComponent },
-    { path: 'login', component: LoginPageComponent },
-    { path: 'payment', component: PaymentPageComponent },
-    { path: 'cancel', component: CancelPageComponent },
-    { path: 'admin', component: AdminPageComponent },
-  ];
+  { path: '', component: HomePageComponent },
+  { path: 'reservation/:fieldId', component: ReservationPageComponent },
+  { path: 'login', component: LoginPageComponent },
+  { path: 'payment', component: PaymentPageComponent },
+  { path: 'cancel', component: CancelPageComponent },
+  { path: 'admin', component: AdminPageComponent, canActivate: [AuthGuard] },
+  { path: 'timeslot', component: TimeslotComponent},
+];

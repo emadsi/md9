@@ -9,6 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ITimeslot } from '../../models/timeslot/timeslot.interface';
 import { DisabledTimeslot } from '../../models/disabledTimeslot/disabledTimeslot.interface';
 import { DisabledTimeslotService } from '../../services/disabledTimeslot/disabledTimeslot.service';
+import { ActivatedRoute } from '@angular/router';
+import { catchError } from 'rxjs';
 
 @Component({
     selector: 'app-reservation-page',
@@ -17,69 +19,91 @@ import { DisabledTimeslotService } from '../../services/disabledTimeslot/disable
     standalone: false
 })
 export class ReservationPageComponent implements OnInit {
-    timeslots: ITimeslot[] = [];
-    disabledTimeslots: DisabledTimeslot[] = [];
-    reservations: any[] = [];
-    errorMessage: string = '';
-    selectedTimeslotId = '';
-    fields = ['Field 1', 'Field 2'];
+  fieldId: number;
+  timeslots: ITimeslot[] = [];
+  disabledTimeslots: DisabledTimeslot[] = [];
+  filteredTimeslots: ITimeslot[] = [];
+  // filteredDisabledTimeslots: DisabledTimeslot[] = [];
+  disabledTimeslotIds: string[] = [];
+  // reservations: any[] = [];
+  errorMessage: string = '';
+  selectedTimeslotId = '';
+  fields = ['Field 1', 'Field 2'];
 
-    constructor(
-        private reservationService: ReservationService,
-        private timeslotService: TimeslotService,
-        private disabledTimeslotService: DisabledTimeslotService,
-        private  dialog: MatDialog
-    ) {}
+  constructor(
+    private route: ActivatedRoute,
+    private reservationService: ReservationService,
+    private timeslotService: TimeslotService,
+    private disabledTimeslotService: DisabledTimeslotService,
+    private dialog: MatDialog
+  ) {}
 
-    ngOnInit(): void {
-        this.loadReservations();
-        this.fetchTimeslots();
-        this.loadDisabledTimeslots();
-    }
+  ngOnInit(): void {
+      this.fieldId = Number(this.route.snapshot.paramMap.get('fieldId'));
+      // this.loadReservations();
+      this.fetchTimeslots();
+      this.loadDisabledTimeslots();
+  }
 
-    private loadReservations(): void {
-        this.reservationService.getAllReservations().subscribe({
-        next: (data) => {
-            this.reservations = data;
-        },
-        error: (error) => {
-            this.errorMessage = 'Failed to load reservations';
-            console.error(error);
-        }
-        });
-    }
+  // private loadReservations(): void {
+  //   this.reservationService.getAllReservations().subscribe({
+  //   next: (data) => {
+  //       this.reservations = data;
+  //   },
+  //   error: (error) => {
+  //       this.errorMessage = 'Failed to load reservations';
+  //       console.error(error);
+  //   }});
+  // }
 
-    private fetchTimeslots(): void {
-        this.timeslotService.getAllTimeslots().subscribe({
-          next: (slots) => {
-            this.timeslots = slots;
-          },
-          error: (error) => {
-            console.error('Failed to fetch timeslots', error);
-          },
-        });
+  private fetchTimeslots(): void {
+    this.timeslotService.getAllTimeslots().subscribe({
+      next: (slots) => {
+        this.timeslots = slots;
+        this.filterTimeslots();
+      },
+      error: (error) => {
+        console.error('Failed to fetch timeslots', error);
+      },
+    });
+  }
+
+  private filterTimeslots(): void {
+    this.filteredTimeslots = this.timeslots.filter(slot => slot.fieldId === this.fieldId.toString());
+  }
+
+
+  private loadDisabledTimeslots(): void {
+    this.disabledTimeslotService.getAllDisabledTimeslots().subscribe({
+      next: (data) => {
+        this.disabledTimeslots = data;
+        this.filterDisabledTimeslots();
+      },
+      error: (error) => {
+        console.error('Failed to Fetch DisabledTimeslots', error)
       }
+    });
+  }
 
+  private filterDisabledTimeslots(): void {
+    this.disabledTimeslotIds = this.disabledTimeslots
+      .filter(d => d.fieldId === this.fieldId.toString())
+      .map(slot => slot.timeslotId);
+  }
 
-    loadDisabledTimeslots(): void {
-        this.disabledTimeslotService.getAllDisabledTimeslots().subscribe((data) => {
-            this.disabledTimeslots = data;
-          });
+  reserveTimeslot(reservation: IReservation): void {
+    if (reservation) {
+      this.reservationService
+          .createReservation(reservation)
+          .subscribe((response: IReservation) => {
+              this.openConfirmationDialog(response);
+              alert('Reservation successful!')});
     }
+  }
 
-    reserveTimeslot(reservation: IReservation): void {
-        if (reservation) {
-        this.reservationService
-            .createReservation(reservation)
-            .subscribe((response: IReservation) => {
-                this.openConfirmationDialog(response);
-                alert('Reservation successful!')});
-        }
-    }
-
-    private openConfirmationDialog(reservation: IReservation): void {
-        this.dialog.open(ReservationConfirmationDialogComponent, {
-          data: reservation,
-        });
-      }
+  private openConfirmationDialog(reservation: IReservation): void {
+    this.dialog.open(ReservationConfirmationDialogComponent, {
+      data: reservation,
+    });
+  }
 }

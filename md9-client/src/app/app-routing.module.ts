@@ -8,16 +8,17 @@ import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { TimeslotComponent } from './components/timeslot/timeslot.component';
 import { AuthGuard } from './guards/authGuard/auth.guard';
+import { routes } from './app.routes';
 
-const routes: Routes = [
-  { path: '', component: HomePageComponent },
-  { path: 'reservation/:fieldId', component: ReservationPageComponent },
-  { path: 'login', component: LoginPageComponent },
-  { path: 'payment', component: PaymentPageComponent },
-  { path: 'cancel', component: CancelPageComponent },
-  { path: 'admin', component: AdminPageComponent, canActivate: [AuthGuard] },
-  { path: 'timeslot', component: TimeslotComponent},
-];
+// const routes: Routes = [
+//   { path: '', component: HomePageComponent },
+//   { path: 'reservation/:fieldId', component: ReservationPageComponent },
+//   { path: 'login', component: LoginPageComponent },
+//   { path: 'payment', component: PaymentPageComponent },
+//   { path: 'cancel', component: CancelPageComponent },
+//   { path: 'admin', component: AdminPageComponent, canActivate: [AuthGuard] },
+//   { path: 'timeslot', component: TimeslotComponent},
+// ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

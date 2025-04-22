@@ -1,3 +1,12 @@
+<!-- <div class="reservation-page">
+  <app-reservation-form [fields]= "fields" [fieldId]="fieldId" [timeslots]="timeslots" (reserveTimeslot)="reserveTimeslot($event)"></app-reservation-form>
+</div> -->
+
 <div class="reservation-page">
-  <app-reservation-form [fields]= "fields" [timeslots]="timeslots" (reserveTimeslot)="reserveTimeslot($event)"></app-reservation-form>
+  <app-reservation-form 
+    [fieldId]="fieldId.toString()"
+    [timeslots]="filteredTimeslots"
+    [disabledTimeslotIds]="disabledTimeslotIds"
+    (reserveTimeslot)="reserveTimeslot($event)">
+  </app-reservation-form>
 </div>

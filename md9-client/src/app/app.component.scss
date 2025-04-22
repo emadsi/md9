@@ -1,7 +1,16 @@
 :host {
   .container {
     display: flex;
+    gap: 30px;
     flex-direction: column;
-    padding: 5px;
+    min-height: 100vh;
+    background-color: #f8f9fa; // subtle light gray background
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
   }
 }

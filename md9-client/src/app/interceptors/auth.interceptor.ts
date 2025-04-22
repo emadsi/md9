@@ -1,34 +1,29 @@
-// import { Injectable } from '@angular/core';
-// import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
-// import { Observable } from 'rxjs';
-
-// @Injectable()
-// export class AuthInterceptor implements HttpInterceptor {
-//   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-//     const token = localStorage.getItem('authToken');
-
-//     if (token) {
-//       const cloned = req.clone({
-//         headers: req.headers.set('Authorization', `Bearer ${token}`)
-//       });
-//       return next.handle(cloned);
-//     }
-
-//     return next.handle(req);
-//   }
-// }
-
+import { isPlatformBrowser } from '@angular/common';
 import { HttpInterceptorFn } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { PLATFORM_ID, inject } from '@angular/core';
 
 export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = localStorage.getItem('authToken');
+  const platformId = inject(PLATFORM_ID);
 
-  if (token) {
-    const cloned = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${token}`)
-    });
-    return next(cloned);
+  // These are public API paths that should NOT have Authorization
+  const publicPaths = [
+    '/api/timeslots',
+    '/api/disabledTimeslots',
+    '/api/reservations', // only if creating is public
+    '/api/auth/login'
+  ];
+
+  const isPublic = publicPaths.some(path => req.url.includes(path));
+
+  if (isPlatformBrowser(platformId) && !isPublic){
+    const token = localStorage.getItem('authToken');
+
+    if (token) {
+      const cloned = req.clone({
+        headers: req.headers.set('Authorization', `Bearer ${token}`)
+      });
+      return next(cloned);
+    }
   }
 
   return next(req);

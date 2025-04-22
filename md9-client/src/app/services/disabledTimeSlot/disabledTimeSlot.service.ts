@@ -16,17 +16,27 @@ export class DisabledTimeslotService {
   getAllDisabledTimeslots(): Observable<DisabledTimeslot[]> {
     return this.http.get<DisabledTimeslot[]>(`${this.baseUrl}/all`).pipe(
       catchError((error) => {
-        console.error('Error fetching reservations', error);
+        console.error('Error fetching Booked Timeslots', error);
         return of([]); // Return empty array on failure
       })
     );
   }
 
   getDisabledTimeslots(date: string): Observable<DisabledTimeslot[]> {
-    return this.http.get<DisabledTimeslot[]>(`${this.baseUrl}/${date}`);
+    return this.http.get<DisabledTimeslot[]>(`${this.baseUrl}/date/${date}`).pipe(
+      catchError((error) => {
+        console.error(`Error fetching Booked Timeslots in this specific date: ${date}`, error);
+        return of([]); // Return empty array on failure
+      })
+    );
   }
 
   addDisabledTimeslot(disabledTimeslot: DisabledTimeslot): Observable<DisabledTimeslot> {
-    return this.http.post<DisabledTimeslot>(this.baseUrl, disabledTimeslot);
+    return this.http.post<DisabledTimeslot>(`${this.baseUrl}/add`, {disabledTimeslot}).pipe(
+      catchError((error) => {
+        console.error('Error adding Booked Timeslot', error);
+        return of(null); // Return empty array on failure
+      })
+    );
   }
 }
