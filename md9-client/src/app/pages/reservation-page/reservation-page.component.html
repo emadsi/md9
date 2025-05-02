@@ -3,10 +3,12 @@
 </div> -->
 
 <div class="reservation-page">
-  <app-reservation-form 
+  <app-reservation-form
+    ngSkipHydration
     [fieldId]="fieldId.toString()"
     [timeslots]="filteredTimeslots"
     [disabledTimeslotIds]="disabledTimeslotIds"
-    (reserveTimeslot)="reserveTimeslot($event)">
+    (reserveTimeslot)="reserveTimeslot($event)"
+  >
   </app-reservation-form>
 </div>

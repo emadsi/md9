@@ -1,8 +1,11 @@
 <div class="reservation-form">
   <!-- Step 1: Pick a date -->
   <!-- reservation-form.component.html -->
-  <div class="calendar-container" ngSkipHydration>
-    <mat-calendar [(selected)]="selectedDate" (selectedChange)="onDateChange($event)"></mat-calendar>
+  <div class="calendar-container">
+    <mat-calendar
+      [(selected)]="selectedDate"
+      (selectedChange)="onDateChange($event)"
+    ></mat-calendar>
   </div>
 
   <!-- Step 2: Show form only after date is selected -->
@@ -23,7 +26,8 @@
         <mat-option
           *ngFor="let slot of timeslots"
           [value]="slot.id"
-          [disabled]="disabledTimeslotIds.includes(slot.id)">
+          [disabled]="disabledTimeslotIds.includes(slot.id)"
+        >
           {{ slot.startTime }} - {{ slot.endTime }}
         </mat-option>
       </mat-select>
@@ -37,7 +41,12 @@
       </mat-select>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" (click)="submitReservation()" [disabled]="reservationForm.invalid">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="submitReservation()"
+      [disabled]="reservationForm.invalid"
+    >
       Proceed to Payment
     </button>
   </form>
