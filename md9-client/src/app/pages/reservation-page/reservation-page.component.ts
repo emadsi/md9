@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ITimeslot } from '../../models/timeslot/timeslot.interface';
 import { DisabledTimeslot } from '../../models/disabledTimeslot/disabledTimeslot.interface';
 import { DisabledTimeslotService } from '../../services/disabledTimeslot/disabledTimeslot.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { catchError } from 'rxjs';
 
 @Component({
@@ -32,6 +32,7 @@ export class ReservationPageComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private reservationService: ReservationService,
     private timeslotService: TimeslotService,
     private disabledTimeslotService: DisabledTimeslotService,
@@ -44,17 +45,6 @@ export class ReservationPageComponent implements OnInit {
       this.fetchTimeslots();
       this.loadDisabledTimeslots();
   }
-
-  // private loadReservations(): void {
-  //   this.reservationService.getAllReservations().subscribe({
-  //   next: (data) => {
-  //       this.reservations = data;
-  //   },
-  //   error: (error) => {
-  //       this.errorMessage = 'Failed to load reservations';
-  //       console.error(error);
-  //   }});
-  // }
 
   private fetchTimeslots(): void {
     this.timeslotService.getAllTimeslots().subscribe({
@@ -91,19 +81,28 @@ export class ReservationPageComponent implements OnInit {
       .map(slot => slot.timeslotId);
   }
 
-  reserveTimeslot(reservation: IReservation): void {
+  // reserveTimeslot(reservation: IReservation): void {
+  //   if (reservation) {
+  //     this.reservationService
+  //         .createReservation(reservation)
+  //         .subscribe((response: IReservation) => {
+  //             this.openConfirmationDialog(response);
+  //             alert('Reservation successful!')});
+  //   }
+  // }
+
+  onProceedToPayment(reservation: IReservation) {
     if (reservation) {
-      this.reservationService
-          .createReservation(reservation)
-          .subscribe((response: IReservation) => {
-              this.openConfirmationDialog(response);
-              alert('Reservation successful!')});
+      const paymentMethod = reservation.paymentMethod;
+      this.router.navigate(['/payment'], {
+        state: { paymentMethod }
+      });
     }
   }
 
-  private openConfirmationDialog(reservation: IReservation): void {
-    this.dialog.open(ReservationConfirmationDialogComponent, {
-      data: reservation,
-    });
-  }
+  // private openConfirmationDialog(reservation: IReservation): void {
+  //   this.dialog.open(ReservationConfirmationDialogComponent, {
+  //     data: reservation,
+  //   });
+  // }
 }

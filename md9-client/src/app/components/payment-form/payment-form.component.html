@@ -1,1 +1,56 @@
-<p>payment-form works!</p>
+<form [formGroup]="paymentForm" (ngSubmit)="onSubmit()" class="payment-form">
+  <mat-form-field appearance="fill">
+    <mat-label>Card Number</mat-label>
+    <input matInput formControlName="cardNumber" required maxlength="16" />
+    <mat-error *ngIf="paymentForm.get('cardNumber')?.invalid"
+      >Card number is required</mat-error
+    >
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Expiration Date</mat-label>
+    <input
+      matInput
+      formControlName="expirationDate"
+      placeholder="MM/YY"
+      required
+    />
+    <mat-error *ngIf="paymentForm.get('expirationDate')?.invalid"
+      >Expiration date is required</mat-error
+    >
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>CVV</mat-label>
+    <input
+      matInput
+      formControlName="cvv"
+      type="password"
+      maxlength="3"
+      required
+    />
+    <mat-error *ngIf="paymentForm.get('cvv')?.invalid"
+      >CVV is required</mat-error
+    >
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>ID</mat-label>
+    <input matInput formControlName="id" type="text" maxlength="9" required />
+    <mat-error *ngIf="paymentForm.get('id')?.invalid">ID is required</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Amount</mat-label>
+    <input matInput formControlName="amount" />
+  </mat-form-field>
+
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="paymentForm.invalid"
+  >
+    Pay Now
+  </button>
+</form>

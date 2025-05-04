@@ -3,6 +3,7 @@
   <!-- reservation-form.component.html -->
   <div class="calendar-container">
     <mat-calendar
+      ngSkipHydration
       [(selected)]="selectedDate"
       (selectedChange)="onDateChange($event)"
     ></mat-calendar>
