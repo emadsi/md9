@@ -1,13 +1,20 @@
-<!-- <div class="reservation-page">
-  <app-reservation-form [fields]= "fields" [fieldId]="fieldId" [timeslots]="timeslots" (reserveTimeslot)="reserveTimeslot($event)"></app-reservation-form>
-</div> -->
-
 <div class="reservation-page">
-  <app-reservation-form
-    [fieldId]="fieldId.toString()"
-    [timeslots]="filteredTimeslots"
-    [disabledTimeslotIds]="disabledTimeslotIds"
-    (reserveTimeslot)="onProceedToPayment($event)"
-  >
-  </app-reservation-form>
+  <ng-container *ngIf="!showPaymentForm; else paymentForm">
+    <app-reservation-form
+      [fieldId]="fieldId.toString()"
+      [timeslots]="filteredTimeslots"
+      [disabledTimeslotIds]="disabledTimeslotIds"
+      (reserveTimeslot)="onProceedToPayment($event)"
+    >
+    </app-reservation-form>
+  </ng-container>
+
+  <ng-template #paymentForm>
+    <app-payment-form
+      [paymentMethod]="reservationData?.paymentMethod"
+      [reservationData]="reservationData"
+      (paymentSuccess)="onPaymentSuccess($event)"
+    >
+    </app-payment-form>
+  </ng-template>
 </div>

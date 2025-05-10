@@ -19,7 +19,7 @@ export class ReservationService {
    * @returns Observable of the created reservation
    */
   createReservation(reservationData: IReservation): Observable<IReservation> {
-    return this.http.put<IReservation>(`${this.apiUrl}/new`, {reservationData}).pipe(
+    return this.http.post<IReservation>('/api/reservations/create', reservationData).pipe(
       catchError((error) => {
         console.error('Error fetching reservations', error);
         return of(); // Return empty array on failure
@@ -46,14 +46,6 @@ export class ReservationService {
     return this.http.delete<Boolean>(`${this.apiUrl}/cancel/${confirmationNumber}`);
   }
 
-  // /**
-  //  * Fetch all time slots from the backend.
-  //  * @returns Observable of time slots
-  //  */
-  // getTimeslots(): Observable<ITimeslot[]> {
-  //   return this.http.get<ITimeslot[]>(`${this.apiUrl}`);
-  // }
-
   /**
    * Get all reservations
    * @returns Observable of reservation list
@@ -71,10 +63,4 @@ export class ReservationService {
     const params = new HttpParams().set('confirmationNumber', confirmationNumber.toString());
     return this.http.get<any>(`${this.apiUrl}/search`, { params });
   }
-
-  // getAvailableTimeslots(date: Date): Observable<string[]> {
-  //   // Replace with actual API call
-  //   // const formattedDate = date.toISOString().split('T')[0];
-  //   return this.http.get<string[]>(`/api/reservations/available-slots/${date}`);
-  // }
 }

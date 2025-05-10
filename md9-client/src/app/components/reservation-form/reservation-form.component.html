@@ -1,15 +1,13 @@
 <div class="reservation-form">
-  <!-- Step 1: Pick a date -->
-  <!-- reservation-form.component.html -->
   <div class="calendar-container">
     <mat-calendar
       ngSkipHydration
       [(selected)]="selectedDate"
       (selectedChange)="onDateChange($event)"
-    ></mat-calendar>
+    >
+    </mat-calendar>
   </div>
 
-  <!-- Step 2: Show form only after date is selected -->
   <form [formGroup]="reservationForm" *ngIf="selectedDate">
     <mat-form-field appearance="fill">
       <mat-label>Full Name</mat-label>
@@ -37,8 +35,8 @@
     <mat-form-field appearance="fill">
       <mat-label>Payment Method</mat-label>
       <mat-select formControlName="paymentMethod" required>
-        <mat-option value="cash">Cash</mat-option>
-        <mat-option value="card">Card</mat-option>
+        <mat-option value="Cash">Cash</mat-option>
+        <mat-option value="Credit">Credit</mat-option>
       </mat-select>
     </mat-form-field>
 

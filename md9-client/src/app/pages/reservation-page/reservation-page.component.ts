@@ -2,15 +2,14 @@ import { Component, OnInit } from '@angular/core';
 
 import { ReservationService } from '../../services/reservation/reservation.service';
 import { TimeslotService } from '../../services/timeslot/timeslot.service';
-import { IReservation } from '../../models/reservation/reservation.interface';
-import { ConfirmationNumberComponent } from '../../components/confirmation-number/confirmation-number.component';
-import { ReservationConfirmationDialogComponent } from '../../components/reservationConfirmationDialog/reservationConfirmationDialog.component';
+import { IReservation, ReservationStatus } from '../../models/reservation/reservation.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { ITimeslot } from '../../models/timeslot/timeslot.interface';
 import { DisabledTimeslot } from '../../models/disabledTimeslot/disabledTimeslot.interface';
 import { DisabledTimeslotService } from '../../services/disabledTimeslot/disabledTimeslot.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError } from 'rxjs';
+import { ReservationConfirmationDialogComponent } from '../../components/reservationConfirmationDialog/reservationConfirmationDialog.component';
 
 @Component({
     selector: 'app-reservation-page',
@@ -23,16 +22,12 @@ export class ReservationPageComponent implements OnInit {
   timeslots: ITimeslot[] = [];
   disabledTimeslots: DisabledTimeslot[] = [];
   filteredTimeslots: ITimeslot[] = [];
-  // filteredDisabledTimeslots: DisabledTimeslot[] = [];
   disabledTimeslotIds: string[] = [];
-  // reservations: any[] = [];
-  errorMessage: string = '';
-  selectedTimeslotId = '';
-  fields = ['Field 1', 'Field 2'];
+  showPaymentForm: boolean = false;
+  reservationData: IReservation | null = null;
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private reservationService: ReservationService,
     private timeslotService: TimeslotService,
     private disabledTimeslotService: DisabledTimeslotService,
@@ -40,10 +35,9 @@ export class ReservationPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-      this.fieldId = Number(this.route.snapshot.paramMap.get('fieldId'));
-      // this.loadReservations();
-      this.fetchTimeslots();
-      this.loadDisabledTimeslots();
+    this.fieldId = Number(this.route.snapshot.paramMap.get('fieldId'));
+    this.fetchTimeslots();
+    this.loadDisabledTimeslots();
   }
 
   private fetchTimeslots(): void {
@@ -61,7 +55,6 @@ export class ReservationPageComponent implements OnInit {
   private filterTimeslots(): void {
     this.filteredTimeslots = this.timeslots.filter(slot => slot.fieldId === this.fieldId.toString());
   }
-
 
   private loadDisabledTimeslots(): void {
     this.disabledTimeslotService.getAllDisabledTimeslots().subscribe({
@@ -81,28 +74,32 @@ export class ReservationPageComponent implements OnInit {
       .map(slot => slot.timeslotId);
   }
 
-  // reserveTimeslot(reservation: IReservation): void {
-  //   if (reservation) {
-  //     this.reservationService
-  //         .createReservation(reservation)
-  //         .subscribe((response: IReservation) => {
-  //             this.openConfirmationDialog(response);
-  //             alert('Reservation successful!')});
-  //   }
-  // }
-
   onProceedToPayment(reservation: IReservation) {
-    if (reservation) {
-      const paymentMethod = reservation.paymentMethod;
-      this.router.navigate(['/payment'], {
-        state: { paymentMethod }
+    this.reservationData = reservation;
+    this.showPaymentForm = true;
+  }
+
+  onPaymentSuccess(confirmationNo: string) {
+    if (this.reservationData) {
+      const completedReservation = {
+        ...this.reservationData,
+        confirmationNo,
+        createdAt: new Date().toISOString(),
+        status: ReservationStatus.DONE,
+      };
+
+      this.reservationService.createReservation(completedReservation).subscribe({
+        next: (savedReservation) => {
+          this.dialog.open(ReservationConfirmationDialogComponent, {
+            data: savedReservation,
+          });
+          this.showPaymentForm = false;
+          this.reservationData = null;
+        },
+        error: (err) => {
+          console.error('Error saving reservation:', err);
+        }
       });
     }
   }
-
-  // private openConfirmationDialog(reservation: IReservation): void {
-  //   this.dialog.open(ReservationConfirmationDialogComponent, {
-  //     data: reservation,
-  //   });
-  // }
 }

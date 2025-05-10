@@ -4,9 +4,9 @@ export enum IPaymentMethod {
 } 
 
 export enum ReservationStatus {
-    done = "Done",
-    cancelled = "Cancelled",
-    pending = "Pending"
+    DONE = "Done",
+    CANCELLED = "Cancelled",
+    PENDING = "Pending"
 }
 
 export interface IReservation {
