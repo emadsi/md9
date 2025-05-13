@@ -1,34 +1,3 @@
-// :host {
-//     .footer {
-//         height: 50px;
-//         position: sticky;
-//         bottom: 0;
-//         background-color: #40678f;
-//         display: flex;
-//         justify-content: space-around;
-//         align-items: center;
-//         color: white;
-//     }
-// }
-
-// :host {
-//     .footer {
-//       position: fixed;
-//       bottom: 0;
-//       left: 0;
-//       right: 0;
-//       height: 50px;
-//       background-color: #1e2a38;
-//       display: flex;
-//       justify-content: space-around;
-//       align-items: center;
-//       color: white;
-//       z-index: 1000;
-//       box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
-//       font-size: 0.9rem;
-//     }
-// }  
-
 :host {
     .footer {
       position: fixed;
@@ -39,7 +8,8 @@
       background-color: #1f2d3d;
       color: #ffffff;
       display: flex;
-      justify-content: space-around;
+      justify-content: space-between;
+      padding: 0 10px;
       align-items: center;
       font-size: 0.85rem;
       z-index: 1000;

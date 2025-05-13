@@ -1,12 +1,15 @@
 <div class="reservation-page">
   <ng-container *ngIf="!showPaymentForm; else paymentForm">
-    <app-reservation-form
-      [fieldId]="fieldId.toString()"
-      [timeslots]="filteredTimeslots"
-      [disabledTimeslotIds]="disabledTimeslotIds"
-      (reserveTimeslot)="onProceedToPayment($event)"
-    >
-    </app-reservation-form>
+    <div #reservationFormSection>
+      <app-reservation-form
+        [fieldId]="fieldId.toString()"
+        [timeslots]="filteredTimeslots"
+        [disabledTimeslotIds]="disabledTimeslotIds"
+        [prefillData]="reservationData"
+        (reserveTimeslot)="onProceedToPayment($event)"
+      >
+      </app-reservation-form>
+    </div>
   </ng-container>
 
   <ng-template #paymentForm>
@@ -14,7 +17,11 @@
       [paymentMethod]="reservationData?.paymentMethod"
       [reservationData]="reservationData"
       (paymentSuccess)="onPaymentSuccess($event)"
+      (goBack)="showPaymentForm = false"
     >
     </app-payment-form>
   </ng-template>
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </div>
 </div>

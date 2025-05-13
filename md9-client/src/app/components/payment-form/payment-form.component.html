@@ -45,12 +45,31 @@
     <input matInput formControlName="amount" />
   </mat-form-field>
 
-  <button
-    mat-raised-button
-    color="primary"
-    type="submit"
-    [disabled]="paymentForm.invalid"
-  >
-    Pay Now
-  </button>
+  <div class="button-group">
+    <button
+      mat-stroked-button
+      type="button"
+      (click)="onBackClick()"
+      [disabled]="isLoading"
+    >
+      Back
+    </button>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="paymentForm.invalid || isLoading"
+    >
+      <mat-progress-spinner
+        *ngIf="isLoading"
+        mode="indeterminate"
+        diameter="20"
+        strokeWidth="3"
+        color="accent"
+        class="spinner-button"
+      ></mat-progress-spinner>
+      <span *ngIf="!isLoading">Pay Now</span>
+    </button>
+  </div>
 </form>

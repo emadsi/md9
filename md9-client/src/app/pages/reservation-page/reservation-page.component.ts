@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import { ReservationService } from '../../services/reservation/reservation.service';
 import { TimeslotService } from '../../services/timeslot/timeslot.service';
@@ -10,6 +10,7 @@ import { DisabledTimeslotService } from '../../services/disabledTimeslot/disable
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError } from 'rxjs';
 import { ReservationConfirmationDialogComponent } from '../../components/reservationConfirmationDialog/reservationConfirmationDialog.component';
+import { ReservationFormComponent } from '../../components/reservation-form/reservation-form.component';
 
 @Component({
     selector: 'app-reservation-page',
@@ -25,6 +26,10 @@ export class ReservationPageComponent implements OnInit {
   disabledTimeslotIds: string[] = [];
   showPaymentForm: boolean = false;
   reservationData: IReservation | null = null;
+  successMessage: string | null = null;
+
+  @ViewChild('reservationFormSection') reservationFormSection!: ElementRef;
+  @ViewChild(ReservationFormComponent) reservationFormComponent!: ReservationFormComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -93,13 +98,26 @@ export class ReservationPageComponent implements OnInit {
           this.dialog.open(ReservationConfirmationDialogComponent, {
             data: savedReservation,
           });
+          this.successMessage = `Reservation confirmed! Confirmation No: ${savedReservation.confirmationNo}`;
           this.showPaymentForm = false;
           this.reservationData = null;
+          
+          // ✅ Reset the form
+        this.reservationFormComponent.resetForm();
         },
         error: (err) => {
           console.error('Error saving reservation:', err);
         }
       });
     }
+  }
+
+  onGoBack(): void {
+    this.showPaymentForm = false;
+
+    // Optional: Scroll smoothly back to the reservation form
+    setTimeout(() => {
+      this.reservationFormSection.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    }, 100); // short delay ensures the DOM has updated
   }
 }

@@ -16,22 +16,34 @@ export class ReservationFormComponent implements OnInit {
   @Input() fieldId!: string;
   @Input() timeslots: ITimeslot[] = [];
   @Input() disabledTimeslotIds: string[] = [];
+  // @Input() initialData?: IReservation = null;
+  @Input() prefillData: IReservation | null = null;
+
   @Output() reserveTimeslot = new EventEmitter<IReservation>();
 
   reservationForm!: FormGroup;
   selectedDate: Date | null = null;
 
   constructor(
-    private fb: FormBuilder,
     private reservationFormService: ReservationFormService
   ) {}
 
   ngOnInit(): void {
-    this.createForm();
+    if (this.prefillData) {
+      this.selectedDate = new Date(this.prefillData.date);
+      this.createForm(this.prefillData);
+    } else {
+      this.createForm();
+    }
   }
 
-  private createForm(): void {
-    this.reservationForm = this.reservationFormService.createReservationForm();
+  private createForm(reservation?: IReservation): void {
+    this.reservationForm = this.reservationFormService.createReservationForm(reservation);
+  }
+
+  resetForm(): void {
+    this.reservationForm.reset();
+    this.selectedDate = null;
   }
 
   onDateChange(date: Date): void {

@@ -17,7 +17,23 @@
         button:hover {
             background-color: #1976d2;
         }
-          
+        
+        .button-group {
+          display: flex;
+          justify-content: space-between;
+          align-items: cetner;
+          gap: 12px;
+        
+          button {
+            flex: 1;
+          }
+        }
+
+        .spinner-button {
+          display: inline-block;
+          vertical-align: middle;
+          margin-right: 8px;
+        }
     }
     
     @media (max-width: 360px) {

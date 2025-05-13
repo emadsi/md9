@@ -12,9 +12,12 @@ import { ReservationService } from '../../services/reservation/reservation.servi
 export class PaymentFormComponent {
   @Input() paymentMethod: string | null = null;
   @Input() reservationData!: IReservation;
+
   @Output() paymentSuccess = new EventEmitter<string>(); // Emit confirmationNo
+  @Output() goBack = new EventEmitter<void>(); // New Output
 
   paymentForm: FormGroup;
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -29,44 +32,77 @@ export class PaymentFormComponent {
     });
   }
 
+  // onSubmit() {
+  //   if (this.paymentForm.invalid) {
+  //     this.paymentForm.markAllAsTouched();
+  //     return;
+  //   }
+
+  //   if (!this.reservationData) {
+  //     console.error('Missing reservation data');
+  //     return;
+  //   }
+
+  //   const simulateApi = new Promise<string>((resolve) => {
+  //     setTimeout(() => {
+  //       const confirmationNo = this.paymentMethod === 'Cash'
+  //         ? 'OBLIGO-' + Math.floor(Math.random() * 10000)
+  //         : 'CARD-' + Math.floor(Math.random() * 10000);
+  //       resolve(confirmationNo);
+  //     }, 1000);
+  //   });
+
+  //   simulateApi.then((confirmationNo) => {
+  //     const completedReservation: IReservation = {
+  //       ...this.reservationData,
+  //       confirmationNo,
+  //       status: ReservationStatus.DONE,
+  //       createdAt: new Date().toISOString()
+  //     };
+
+  //     this.reservationService.createReservation(completedReservation).subscribe({
+  //       next: () => {
+  //         alert('✅ Payment successful & reservation saved!');
+  //         this.paymentSuccess.emit(confirmationNo); // Notify parent
+  //       },
+  //       error: (err) => {
+  //         console.error('❌ Failed to save reservation', err);
+  //         alert('Reservation save failed after payment');
+  //       }
+  //     });
+  //   });
+  // }
+
   onSubmit() {
-    if (this.paymentForm.invalid) {
-      this.paymentForm.markAllAsTouched();
-      return;
-    }
+    if (this.paymentForm.valid) {
+      this.isLoading = true;
 
-    if (!this.reservationData) {
-      console.error('Missing reservation data');
-      return;
-    }
-
-    const simulateApi = new Promise<string>((resolve) => {
       setTimeout(() => {
-        const confirmationNo = this.paymentMethod === 'Cash'
-          ? 'OBLIGO-' + Math.floor(Math.random() * 10000)
-          : 'CARD-' + Math.floor(Math.random() * 10000);
-        resolve(confirmationNo);
-      }, 1000);
-    });
+        const fakeConfirmation = Math.floor(100000 + Math.random() * 900000).toString();
 
-    simulateApi.then((confirmationNo) => {
-      const completedReservation: IReservation = {
-        ...this.reservationData,
-        confirmationNo,
-        status: ReservationStatus.DONE,
-        createdAt: new Date().toISOString()
-      };
+        this.paymentSuccess.emit(fakeConfirmation);
+        this.isLoading = false;
+      }, 2000); // Simulated delay
+    } else {
+      this.paymentForm.markAllAsTouched();
+    }
+  }
 
-      this.reservationService.createReservation(completedReservation).subscribe({
-        next: () => {
-          alert('✅ Payment successful & reservation saved!');
-          this.paymentSuccess.emit(confirmationNo); // Notify parent
-        },
-        error: (err) => {
-          console.error('❌ Failed to save reservation', err);
-          alert('Reservation save failed after payment');
-        }
-      });
-    });
+  // onSubmit() {
+  //   if (this.paymentForm.valid) {
+  //     if (this.paymentMethod === 'Cash') {
+  //       const confirmationNo = 'OBLIGO1234'; // Replace with real API result
+  //       this.paymentSuccess.emit(confirmationNo);
+  //     } else if (this.paymentMethod === 'Credit') {
+  //       const confirmationNo = 'CC5678'; // Replace with real API result
+  //       this.paymentSuccess.emit(confirmationNo);
+  //     }
+  //   } else {
+  //     this.paymentForm.markAllAsTouched();
+  //   }
+  // }
+
+  onBackClick(): void {
+    this.goBack.emit();
   }
 }

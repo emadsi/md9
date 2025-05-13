@@ -16,7 +16,7 @@ import { ReservationService } from './services/reservation/reservation.service';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { FieldReservationComponent } from './components/field-reservation/field-reservation.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -35,7 +35,7 @@ import { ViewReservationsComponent } from './components/view-reservations/view-r
 import { BlockTimeslotsComponent } from './components/block-timeslots/block-timeslots.component';
 import { AddTimeslotsComponent } from './components/add-timeslots/add-timeslots.component';
 import { ConfirmPaymentsComponent } from './components/confirm-payments/confirm-payments.component';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BlockDialogComponent } from './components/block-dialog/block-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AdminRegisterComponent } from './components/admin-register/admin-register.component';
@@ -79,7 +79,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     AdminService,
