@@ -1,9 +1,64 @@
+<!-- <div class="reservation-form">
+  <div class="calendar-container">
+    <mat-calendar
+      ngSkipHydration
+      [(selected)]="selectedDate"
+      (selectedChange)="onDateChange($event)"
+      [dateFilter]="isDateDisabled"
+    >
+    </mat-calendar>
+  </div>
+
+  <form [formGroup]="reservationForm" *ngIf="selectedDate">
+    <mat-form-field appearance="fill">
+      <mat-label>Full Name</mat-label>
+      <input matInput formControlName="reserverName" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Mobile</mat-label>
+      <input matInput formControlName="mobile" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Available Time Slots</mat-label>
+      <mat-select formControlName="timeslotId" required>
+        <mat-option
+          *ngFor="let slot of timeslots"
+          [value]="slot.id"
+          [disabled]="disabledTimeslotIds.includes(slot.id)"
+        >
+          {{ slot.startTime }} - {{ slot.endTime }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Payment Method</mat-label>
+      <mat-select formControlName="paymentMethod" required>
+        <mat-option value="Cash">Cash</mat-option>
+        <mat-option value="Credit">Credit</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="submitReservation()"
+      [disabled]="reservationForm.invalid"
+    >
+      Proceed to Payment
+    </button>
+  </form>
+</div> -->
+
 <div class="reservation-form">
   <div class="calendar-container">
     <mat-calendar
       ngSkipHydration
       [(selected)]="selectedDate"
       (selectedChange)="onDateChange($event)"
+      [dateFilter]="isDateDisabled"
     >
     </mat-calendar>
   </div>

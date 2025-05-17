@@ -15,20 +15,24 @@ import { ITimeslot } from '../../models/timeslot/timeslot.interface';
 export class ReservationFormComponent implements OnInit {
   @Input() fieldId!: string;
   @Input() timeslots: ITimeslot[] = [];
-  @Input() disabledTimeslotIds: string[] = [];
-  // @Input() initialData?: IReservation = null;
+  @Input() disabledTimeslots: DisabledTimeslot[] = [];
   @Input() prefillData: IReservation | null = null;
 
   @Output() reserveTimeslot = new EventEmitter<IReservation>();
 
   reservationForm!: FormGroup;
+  disabledTimeslotIds: string[] = [];
   selectedDate: Date | null = null;
+  disabledDates: string[] = [];
 
   constructor(
     private reservationFormService: ReservationFormService
   ) {}
 
   ngOnInit(): void {
+    this.filterDisabledTimeslots();
+    this.computeFullyBookedDates();
+
     if (this.prefillData) {
       this.selectedDate = new Date(this.prefillData.date);
       this.createForm(this.prefillData);
@@ -39,6 +43,12 @@ export class ReservationFormComponent implements OnInit {
 
   private createForm(reservation?: IReservation): void {
     this.reservationForm = this.reservationFormService.createReservationForm(reservation);
+  }
+
+  private filterDisabledTimeslots(): void {
+    this.disabledTimeslotIds = this.disabledTimeslots
+      .filter(d => d.fieldId === this.fieldId.toString())
+      .map(slot => slot.timeslotId);
   }
 
   resetForm(): void {
@@ -64,5 +74,53 @@ export class ReservationFormComponent implements OnInit {
 
       this.reserveTimeslot.emit(reservation);
     }
+  }
+
+  // Disable past dates and fully booked dates
+  isDateDisabled = (date: Date): boolean => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+  
+    const target = new Date(date);
+    target.setHours(0, 0, 0, 0);
+  
+    const formatted = target.toISOString().split('T')[0];
+  
+    // ❌ Disable past dates
+    // ❌ Disable fully booked dates
+    return target >= today || this.disabledDates.includes(formatted);
+  };
+  
+
+  private computeFullyBookedDates(): void {
+    const totalSlots = this.timeslots.length;
+    const countByDate: Record<string, number> = {};
+
+    this.disabledTimeslots.forEach((entry) => {
+      if (entry.fieldId === this.fieldId) {
+        countByDate[entry.date] = (countByDate[entry.date] || 0) + 1;
+      }
+    });
+
+    this.disabledDates = Object.entries(countByDate)
+      .filter(([_, count]) => count >= totalSlots)
+      .map(([date]) => date);
+  }
+
+  // Getters for template
+  get reserverName(): FormControl {
+    return this.reservationForm.get('reserverName') as FormControl;
+  }
+
+  get mobile(): FormControl {
+    return this.reservationForm.get('mobile') as FormControl;
+  }
+
+  get timeslotId(): FormControl {
+    return this.reservationForm.get('timeslotId') as FormControl;
+  }
+
+  get paymentMethod(): FormControl {
+    return this.reservationForm.get('paymentMethod') as FormControl;
   }
 }

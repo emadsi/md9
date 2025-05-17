@@ -24,6 +24,10 @@ export class TimeslotService {
     );
   }
 
+  getTimeslotById(id: string): Observable<ITimeslot> {
+    return this.http.get<ITimeslot>(`${this.baseUrl}/${id}`);
+  }
+
   addTimeslot(from: string, to: string, fieldId: string): Observable<ITimeslot> {
     return this.http.post<ITimeslot>(`${this.baseUrl}/add`, { from, to, fieldId });
   }

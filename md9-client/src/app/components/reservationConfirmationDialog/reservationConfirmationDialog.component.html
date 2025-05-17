@@ -1,9 +1,13 @@
-<h2>Reservation Successful</h2>
-
-<p>Your reservation has been confirmed!</p>
-<p><strong>Confirmation Number:</strong> {{ data.confirmationNumber }}</p>
-<p><strong>User ID:</strong> {{ data.userId }}</p>
-<p><strong>Reservation Date:</strong> {{ data.reservationDate }}</p>
-<p><strong>Time Slot ID:</strong> {{ data.timeslotId }}</p>
-
-<button mat-button mat-dialog-close>Close</button>
+<div class="dialog-container">
+  <h2>✅ Reservation Confirmed!</h2>
+  <div class="confirmation-details">
+    <p><strong>Confirmation No:</strong> {{ reservation.confirmationNo }}</p>
+    <p><strong>Name:</strong> {{ reservation.reserverName }}</p>
+    <p><strong>Date:</strong> {{ reservation.date }}</p>
+    <p><strong>Time Slot:</strong> {{ timeslotRange }}</p>
+    <p><strong>Field:</strong> {{ reservation.fieldId }}</p>
+  </div>
+  <div class="actions">
+    <button mat-raised-button color="primary" mat-dialog-close>Close</button>
+  </div>
+</div>

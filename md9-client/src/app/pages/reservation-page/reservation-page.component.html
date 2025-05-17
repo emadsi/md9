@@ -2,9 +2,10 @@
   <ng-container *ngIf="!showPaymentForm; else paymentForm">
     <div #reservationFormSection>
       <app-reservation-form
+        *ngIf="!successMessage || !errorMessage"
         [fieldId]="fieldId.toString()"
         [timeslots]="filteredTimeslots"
-        [disabledTimeslotIds]="disabledTimeslotIds"
+        [disabledTimeslots]="disabledTimeslots"
         [prefillData]="reservationData"
         (reserveTimeslot)="onProceedToPayment($event)"
       >
@@ -13,6 +14,8 @@
   </ng-container>
 
   <ng-template #paymentForm>
+    <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+
     <app-payment-form
       [paymentMethod]="reservationData?.paymentMethod"
       [reservationData]="reservationData"

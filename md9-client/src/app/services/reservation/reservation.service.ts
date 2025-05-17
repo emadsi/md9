@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, catchError, of } from 'rxjs';
+import { Observable, catchError, of, throwError } from 'rxjs';
 import { IReservation } from '../../models/reservation/reservation.interface';
 import { environment } from '../../../environments/environment';
-
 
 @Injectable({
   providedIn: 'root'
@@ -19,23 +18,13 @@ export class ReservationService {
    * @returns Observable of the created reservation
    */
   createReservation(reservationData: IReservation): Observable<IReservation> {
-    return this.http.post<IReservation>('/api/reservations/create', reservationData).pipe(
+    return this.http.post<IReservation>(`${this.apiUrl}/create`, reservationData).pipe(
       catchError((error) => {
         console.error('Error fetching reservations', error);
-        return of(); // Return empty array on failure
+        return throwError(() => error); // Return empty array on failure
       })
     );
   }
-
-  // /**
-  //  * Update an existing reservation
-  //  * @param reservationId The ID of the reservation
-  //  * @param updateData The updated reservation data
-  //  * @returns Observable of the updated reservation
-  //  */
-  // updateReservation(reservationId: string, updateData: any): Observable<any> {
-  //   return this.http.put<any>(`${this.apiUrl}/new`, {reservationId}, updateData);
-  // }
 
   /**
    * Cancel a reservation

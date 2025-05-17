@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-
 import { ReservationService } from '../../services/reservation/reservation.service';
 import { TimeslotService } from '../../services/timeslot/timeslot.service';
 import { IReservation, ReservationStatus } from '../../models/reservation/reservation.interface';
@@ -7,8 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ITimeslot } from '../../models/timeslot/timeslot.interface';
 import { DisabledTimeslot } from '../../models/disabledTimeslot/disabledTimeslot.interface';
 import { DisabledTimeslotService } from '../../services/disabledTimeslot/disabledTimeslot.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { catchError } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { ReservationConfirmationDialogComponent } from '../../components/reservationConfirmationDialog/reservationConfirmationDialog.component';
 import { ReservationFormComponent } from '../../components/reservation-form/reservation-form.component';
 
@@ -23,10 +21,10 @@ export class ReservationPageComponent implements OnInit {
   timeslots: ITimeslot[] = [];
   disabledTimeslots: DisabledTimeslot[] = [];
   filteredTimeslots: ITimeslot[] = [];
-  disabledTimeslotIds: string[] = [];
   showPaymentForm: boolean = false;
   reservationData: IReservation | null = null;
-  successMessage: string | null = null;
+  successMessage: string = '';
+  errorMessage: string = '';
 
   @ViewChild('reservationFormSection') reservationFormSection!: ElementRef;
   @ViewChild(ReservationFormComponent) reservationFormComponent!: ReservationFormComponent;
@@ -65,23 +63,18 @@ export class ReservationPageComponent implements OnInit {
     this.disabledTimeslotService.getAllDisabledTimeslots().subscribe({
       next: (data) => {
         this.disabledTimeslots = data;
-        this.filterDisabledTimeslots();
+        // this.filterDisabledTimeslots();
       },
       error: (error) => {
         console.error('Failed to Fetch DisabledTimeslots', error)
       }
     });
   }
-
-  private filterDisabledTimeslots(): void {
-    this.disabledTimeslotIds = this.disabledTimeslots
-      .filter(d => d.fieldId === this.fieldId.toString())
-      .map(slot => slot.timeslotId);
-  }
-
+  
   onProceedToPayment(reservation: IReservation) {
     this.reservationData = reservation;
     this.showPaymentForm = true;
+    this.errorMessage = ''; // clear previous error if any
   }
 
   onPaymentSuccess(confirmationNo: string) {
@@ -101,12 +94,17 @@ export class ReservationPageComponent implements OnInit {
           this.successMessage = `Reservation confirmed! Confirmation No: ${savedReservation.confirmationNo}`;
           this.showPaymentForm = false;
           this.reservationData = null;
+          this.errorMessage = ''; // Clear any previous error
           
           // ✅ Reset the form
         this.reservationFormComponent.resetForm();
         },
         error: (err) => {
           console.error('Error saving reservation:', err);
+          this.errorMessage = 
+            err?.error?.message 
+            || err?.error?.error 
+            || 'An unexpected error occurred while creating the reservation. Please try again.';
         }
       });
     }
@@ -114,6 +112,7 @@ export class ReservationPageComponent implements OnInit {
 
   onGoBack(): void {
     this.showPaymentForm = false;
+    this.errorMessage = '';
 
     // Optional: Scroll smoothly back to the reservation form
     setTimeout(() => {
