@@ -81,7 +81,6 @@ export class AdminPageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Blocking timeslot for:', result);
         // Call API to block timeslot here
       }
     });
@@ -93,7 +92,7 @@ export class AdminPageComponent implements OnInit {
         timeslotId: this.selectedSlot.id,
         blockDate: this.selectedBlockDate
       };
-      this.timeslotService.blockTimeslot(payload.timeslotId, payload.blockDate.toString()).subscribe(() => {
+      this.timeslotService.blockTimeslot(payload.timeslotId, payload.blockDate.toISOString().split('T')[0]).subscribe(() => {
         this.loadTimeslots();
         this.dialog.closeAll();
       });
@@ -106,7 +105,6 @@ export class AdminPageComponent implements OnInit {
 
   fetchBlockedTimeslots() {
     this.disabledTimeslotService.getAllDisabledTimeslots().subscribe((data) => {
-      console.log('Blocked Time Slots:', data);
       this.snackBar.open('Blocked time slots fetched!', 'Close', { duration: 3000 });
     });
   }
@@ -119,12 +117,12 @@ export class AdminPageComponent implements OnInit {
   }
 
   blockTimeslot(timeslotId: string, date: Date) {
-    this.timeslotService.blockTimeslot(timeslotId, date.toString()).subscribe(() => {
+    this.timeslotService.blockTimeslot(timeslotId, date.toISOString().split('T')[0]).subscribe(() => {
       this.snackBar.open('Time Slot Blocked!', 'Close', { duration: 4000 });
     });
   }
   unBlockTimeslot(timeslotId: string, date: Date) {
-    this.timeslotService.unblockTimeslot(timeslotId, date.toString()).subscribe(
+    this.timeslotService.unblockTimeslot(timeslotId, date.toISOString().split('T')[0]).subscribe(
         result => result ? this.snackBar.open('Timeslot is Unblocked anymore')
         : this.snackBar.open('Can not Unblock Timeslot. try again later', 'Close', { duration: 4000 })
     )

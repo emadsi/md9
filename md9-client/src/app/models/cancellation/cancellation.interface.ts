@@ -3,5 +3,5 @@ export interface Cancellation {
     reservationId: string;
     reason: string;
     cancelledBy: 'ADMIN' | 'USER';
-    createdAt: Date;
+    cancelledAt: string;
 }

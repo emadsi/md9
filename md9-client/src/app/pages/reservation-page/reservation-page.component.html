@@ -3,7 +3,7 @@
     <div #reservationFormSection>
       <app-reservation-form
         *ngIf="!successMessage || !errorMessage"
-        [fieldId]="fieldId.toString()"
+        [fieldId]="fieldId"
         [timeslots]="filteredTimeslots"
         [disabledTimeslots]="disabledTimeslots"
         [prefillData]="reservationData"

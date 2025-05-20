@@ -15,7 +15,6 @@ export class FieldReservationComponent {
   constructor(private router: Router) {}
 
   handleReserve(): void {
-    console.log("I'm here");
     this.router.navigate([`reservation/${this.fieldId}`])
   }
 }

@@ -43,7 +43,7 @@ export class TimeslotComponent implements OnInit {
   blockTimeslot(): void {
     if (this.selectedTimeslotId && this.blockDate) {
       this.timeslotService
-        .blockTimeslot(this.selectedTimeslotId, this.blockDate.toString())
+        .blockTimeslot(this.selectedTimeslotId, this.blockDate.toISOString().split('T')[0])
         .subscribe(() => {
           alert('Time slot blocked!');
         });

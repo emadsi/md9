@@ -17,7 +17,7 @@ import { ReservationFormComponent } from '../../components/reservation-form/rese
     standalone: false
 })
 export class ReservationPageComponent implements OnInit {
-  fieldId: number;
+  fieldId: string;
   timeslots: ITimeslot[] = [];
   disabledTimeslots: DisabledTimeslot[] = [];
   filteredTimeslots: ITimeslot[] = [];
@@ -38,7 +38,7 @@ export class ReservationPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.fieldId = Number(this.route.snapshot.paramMap.get('fieldId'));
+    this.fieldId = this.route.snapshot.paramMap.get('fieldId');
     this.fetchTimeslots();
     this.loadDisabledTimeslots();
   }
@@ -56,7 +56,7 @@ export class ReservationPageComponent implements OnInit {
   }
 
   private filterTimeslots(): void {
-    this.filteredTimeslots = this.timeslots.filter(slot => slot.fieldId === this.fieldId.toString());
+    this.filteredTimeslots = this.timeslots.filter(slot => slot.fieldId === this.fieldId);
   }
 
   private loadDisabledTimeslots(): void {

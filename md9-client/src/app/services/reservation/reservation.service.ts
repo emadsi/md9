@@ -49,7 +49,7 @@ export class ReservationService {
    * @returns Observable of the reservation
    */
   getReservationByConfirmationNumber(confirmationNumber: string): Observable<any> {
-    const params = new HttpParams().set('confirmationNumber', confirmationNumber.toString());
+    const params = new HttpParams().set('confirmationNumber', confirmationNumber);
     return this.http.get<any>(`${this.apiUrl}/search`, { params });
   }
 }
